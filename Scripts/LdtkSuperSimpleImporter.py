@@ -163,12 +163,25 @@ def load_texture_asset(texture_path):
     texture = unreal.EditorAssetLibrary.load_asset(texture_path)
     return texture
 
-def create_sprite_from_texture(texture_asset):
-    # Create a new PaperSprite
-    sprite = unreal.PaperSprite(texture_asset)
-    # Set the source texture for the sprite
-    sprite.set_editor_property("source_texture", texture_asset)
-    return sprite
+def create_sprite_from_texture(texture_asset: unreal.PaperSprite):
+
+    try:
+        # Specify the path where you want to save the sprite
+        sprite_path = "/Game/LdtkFiles"
+        sprite_name = f"{texture_asset.get_name()}_sprite"
+
+        # Create a new package to store the sprite
+        sprite_package = unreal.AssetToolsHelpers.get_asset_tools().create_asset(asset_name=sprite_name, package_path=sprite_path, asset_class=unreal.PaperSprite, factory=unreal.PaperSpriteFactory())
+        # Add the sprite to the package
+        sprite_package.set_editor_property("source_texture", texture_asset)
+
+        # Print the path where the sprite is saved
+        print("Sprite saved at: ", sprite_path)
+    except:
+        pass
+         
+
+    
 
 def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=100.0):
     # Spawn the sprite in the world at the specified location
