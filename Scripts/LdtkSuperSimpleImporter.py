@@ -4,49 +4,22 @@ import json
 import pprint
 import datetime
 import os
-
 from enum import Enum
 from typing import Any, List, Optional, Dict, TypeVar, Type, Callable, cast
 
-def spawnCube(location=unreal.Vector(), rotation=unreal.Rotator()):
-    editorActorSubs = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)
-    actorClass = unreal.StaticMeshActor
-    staticMeshActor = editorActorSubs.spawn_actor_from_class(actorClass, location, rotation)
-    staticMesh = unreal.EditorAssetLibrary.load_asset("/Engine/BasicShapes/Cube.Cube")
-
-    # Correctly get the StaticMeshComponent and set the static mesh
-    staticMeshComponent = staticMeshActor.get_component_by_class(unreal.StaticMeshComponent.static_class())
-    staticMeshComponent.set_static_mesh(staticMesh)
-
-def run():
-    # Provide specific values for location and rotation if needed
-    cube_count = 12
-    circle_radius = 1000
-    circle_center = unreal.Vector(0, 0, 0)
-
-    for i in range(cube_count):
-        circle_x_location = circle_radius * math.cos(math.radians(i * 360.0 / cube_count))
-        circle_y_location = circle_radius * math.sin(math.radians(i * 360.0 / cube_count))
-        location = unreal.Vector(circle_x_location, circle_y_location, 0)
-        spawnCube(location)
-
 def find_all_subfolders(path):
-    # Go back 2 directories
-    newPath = os.path.dirname(os.path.dirname(path))
-
     # Initialize an empty list to store the subfolder paths
     subfolders = []
     
     # Walk through the directory tree
-    for root, dirs, files in os.walk(newPath): # Corrected line
+    for root, dirs, files in os.walk(path): # Corrected line
         # For each directory in the tree, add its path to the list
         for dir in dirs:
             subfolders.append(os.path.join(root, dir))
     
     return subfolders
 
-import os
-from typing import Dict, Any
+
 
 # Define a type alias for the directory contents structure
 DirectoryContents = Dict[str, Dict[str, Any]]
@@ -72,34 +45,69 @@ def get_directory_contents(path: str) -> dict:
 
     return directory_contents
 
-def createLevelsDirectory():
-    current_directory = unreal.Paths.project_content_dir()
+# TODO : determine if needed
 
-    ## TODO: Find a way to not have to do this when the computer's local is not english, other wise it does not find the folder at the path
-    current_directory = current_directory.replace("Users", "Utilisateurs")
+# def createLevelsDirectory():
+#     current_directory = unreal.Paths.project_content_dir()
 
-    # Specify the directory name
-    directory_name = "Levels"
+#     ## TODO: Find a way to not have to do this when the computer's local is not english, other wise it does not find the folder at the path
+#     current_directory = current_directory.replace("Users", "Utilisateurs")
 
-    # Get the absolute path of the directory within the project
-    directory_path = os.path.join(current_directory, directory_name)
+#     # Specify the directory name
+#     directory_name = "Levels"
 
-    # Check if the directory already exists
-    if not os.path.exists(directory_path):
-        try:
-            # Create the directory if it doesn't exist
-            os.makedirs(directory_path)
-            print(f"Directory '{directory_name}' created successfully at: {directory_path}")
-        except Exception as e:
-            # Print an error message if any error occurs
-            print(f"An error occurred: {e}")
-    else:
-        print(f"Directory '{directory_name}' already exists at: {directory_path}")
+#     # Get the absolute path of the directory within the project
+#     directory_path = os.path.join(current_directory, directory_name)
+
+#     # Check if the directory already exists
+#     if not os.path.exists(directory_path):
+#         try:
+#             # Create the directory if it doesn't exist
+#             os.makedirs(directory_path)
+#             print(f"Directory '{directory_name}' created successfully at: {directory_path}")
+#         except Exception as e:
+#             # Print an error message if any error occurs
+#             print(f"An error occurred: {e}")
+#     else:
+#         print(f"Directory '{directory_name}' already exists at: {directory_path}")
     
-def importWorld(simplifiedPath):
-    spawn_paper2d_image("_bg.png")
-    #Get the directories inside of the simplified folder path
-    #directories = find_all_subfolders(simplifiedPath)
+def importWorld():
+    # spawn_paper2d_image()
+    content_directory = unreal.Paths.project_content_dir()
+    level_files_location = "LdtkFiles/simplified"
+    level_directory = os.path.join(content_directory, level_files_location)
+
+    base_directory = "/Game"
+    ldtk_files_directory = "LdtkFiles"
+    ldtk_simplified_directory = "simplified"
+    base_path = os.path.join(base_directory, ldtk_files_directory, ldtk_simplified_directory)
+
+    composite_filename = "_composite"
+    data_filename = "data.json"
+
+    # Get the directories
+    directories = find_all_subfolders(level_directory)
+
+    for directory in directories:
+        _, directory_name = os.path.split(directory)
+        print(f"directoryName: {directory_name}")
+        full_path_composite = os.path.join(base_path, directory_name, composite_filename)
+        full_path_data = os.path.join(level_directory, directory_name, data_filename)
+
+        compositeTexture = load_texture_asset(full_path_composite)
+
+        compositeSprite = create_sprite_from_texture(compositeTexture, directory_name)
+
+        print(f"composite sprite: {compositeSprite}")
+
+        data_file = open(full_path_data)
+        data = json.load(data_file)
+        print(f"data x: {data['x']}")
+        composite_spawn_coords = (data['x'], data['y'], 0)
+
+        spawned_actor = spawn_sprite_in_world(compositeSprite, (composite_spawn_coords))
+
+        print(spawned_actor)
 
     #Get all files for all directories and map them
     #newPath = os.path.dirname(os.path.dirname(simplifiedPath))
@@ -163,12 +171,11 @@ def load_texture_asset(texture_path):
     texture = unreal.EditorAssetLibrary.load_asset(texture_path)
     return texture
 
-def create_sprite_from_texture(texture_asset: unreal.PaperSprite):
-
+def create_sprite_from_texture(texture_asset: unreal.PaperSprite, world_name):
     try:
         # Specify the path where you want to save the sprite
         sprite_path = "/Game/LdtkFiles"
-        sprite_name = f"{texture_asset.get_name()}_sprite"
+        sprite_name = f"{world_name}_{texture_asset.get_name()}_sprite"
 
         # Create a new package to store the sprite
         sprite_package = unreal.AssetToolsHelpers.get_asset_tools().create_asset(asset_name=sprite_name, package_path=sprite_path, asset_class=unreal.PaperSprite, factory=unreal.PaperSpriteFactory())
@@ -177,21 +184,21 @@ def create_sprite_from_texture(texture_asset: unreal.PaperSprite):
 
         # Print the path where the sprite is saved
         print("Sprite saved at: ", sprite_path)
+        return sprite_package
     except:
         pass
          
-
-    
-
-def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=100.0):
+def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=1.0):
     # Spawn the sprite in the world at the specified location
-    world = unreal.EditorLevelLibrary.get_editor_world()
+
+    # world = unreal.EditorLevelLibrary.get_editor_world() TODO: determined if really useless or not 
+
     spawn_location = unreal.Vector(location[0], location[1], location[2])
     
     # Set the scale vector
     scale_vector = unreal.Vector(scale, scale, scale)
     
-    actor = unreal.EditorLevelLibrary.spawn_actor_from_class(unreal.PaperSpriteActor, spawn_location, transient=False)
+    actor = unreal.EditorLevelLibrary.spawn_actor_from_object(sprite, spawn_location, transient=False)
     if actor:
         # Get the PaperSpriteComponent attached to the actor
         sprite_component = actor.render_component
@@ -258,7 +265,7 @@ def spawn_paper2d_image(png_path, position=(0, 0, 0), scale=(1, 1, 1)):
     #     return None
 
 #noinspection PyUnresolvedReferences
-importWorld(full_path)
+importWorld()
 
 #noinspection PyUnresolvedReferences
 print(full_path) ## Value from locals given by unreal python node in the exec function
