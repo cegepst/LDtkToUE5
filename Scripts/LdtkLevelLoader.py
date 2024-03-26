@@ -3,10 +3,10 @@ import math
 import json
 import pprint
 import datetime
+import os
 
 from enum import Enum
 from typing import Any, List, Optional, Dict, TypeVar, Type, Callable, cast
-
 
 T = TypeVar("T")
 EnumT = TypeVar("EnumT", bound=Enum)
@@ -2860,12 +2860,32 @@ def run():
         spawnCube(location)
 
 def importWorld(ldtkFilePath):
-    with open(ldtkFilePath, 'r') as file:
-        json_content = file.read()
-    result = ldtk_json_from_dict(json.loads(json_content))
-    print('LDtk levels loaded successfully: %s', result)
-    pprint.pprint(vars(result))
+    ##check filetype
+    _, file_extension = os.path.splitext(ldtkFilePath)
 
+    if file_extension == '.ldtk': 
+
+        print("Processing .ldtk file")
+
+        with open(ldtkFilePath, 'r') as file:
+            json_content = file.read()
+        result = ldtk_json_from_dict(json.loads(json_content))
+        print('LDtk levels loaded successfully: %s', result)
+        pprint.pprint(vars(result))
+
+    # elif file_extension == '.json':
+
+    #     print("Processing .json file")
+
+    #     factory = unreal.PaperTiledImporterFactory
+    #     factory.asset_import_task()
+
+    #     with open(ldtkFilePath, 'r') as file:
+    #         json_content = file.read()
+    #     result = unreal.PaperTiledImporterFactory(json.loads(json_content))
+    #     print('Tiled JSON file loaded successfully: %s', result)
+    #     pprint.pprint(vars(result))
+    
 ##run()
     
 def onButtonClick():
