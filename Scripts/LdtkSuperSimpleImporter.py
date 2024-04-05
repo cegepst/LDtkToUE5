@@ -8,20 +8,15 @@ from enum import Enum
 from typing import Any, List, Optional, Dict, TypeVar, Type, Callable, cast
 
 def find_all_subfolders(path):
-    # Initialize an empty list to store the subfolder paths
     subfolders = []
     
-    # Walk through the directory tree
-    for root, dirs, files in os.walk(path): # Corrected line
-        # For each directory in the tree, add its path to the list
+    for root, dirs, files in os.walk(path):
         for dir in dirs:
             subfolders.append(os.path.join(root, dir))
     
     return subfolders
 
 
-
-# Define a type alias for the directory contents structure
 DirectoryContents = Dict[str, Dict[str, Any]]
 
 def get_directory_contents(path: str) -> dict:
@@ -39,8 +34,6 @@ def get_directory_contents(path: str) -> dict:
         filtered_files = [file for file in files if file.endswith(('_bg.png', '_composite.png', 'Bg_textures.png', 'Collisions.csv', 'Collisions.png', 'Collisions-int.png', 'data.json', 'Wall_shadows.png'))]
 
         if filtered_files:
-            # Convert backslashes to single backslashes
-            # Add the directory and its contents to the dictionary
             directory_contents[root] = {file: None for file in filtered_files}
 
     return directory_contents
@@ -72,7 +65,6 @@ def get_directory_contents(path: str) -> dict:
 #         print(f"Directory '{directory_name}' already exists at: {directory_path}")
     
 def importWorld():
-    # spawn_paper2d_image()
     content_directory = unreal.Paths.project_content_dir()
     level_files_location = "LdtkFiles/simplified"
     level_directory = os.path.join(content_directory, level_files_location)
@@ -85,29 +77,44 @@ def importWorld():
     composite_filename = "_composite"
     data_filename = "data.json"
 
-    # Get the directories
     directories = find_all_subfolders(level_directory)
+    print("Level directory: " + level_directory)
 
-    for directory in directories:
+    loaded_data = []
+
+    for index, directory in enumerate(directories):
         _, directory_name = os.path.split(directory)
         print(f"directoryName: {directory_name}")
         full_path_composite = os.path.join(base_path, directory_name, composite_filename)
-        full_path_data = os.path.join(level_directory, directory_name, data_filename)
+        full_path_data = os.path.join(level_directory, directory_name, data_filename).replace("\\", "/")
 
-        compositeTexture = load_texture_asset(full_path_composite)
+        composite_texture = load_texture_asset(full_path_composite)
 
-        compositeSprite = create_sprite_from_texture(compositeTexture, directory_name)
+        composite_sprite = create_sprite_from_texture(composite_texture, directory_name)
 
-        print(f"composite sprite: {compositeSprite}")
+        print(f"composite sprite: {composite_sprite}")
 
         data_file = open(full_path_data)
         data = json.load(data_file)
-        print(f"data x: {data['x']}")
-        composite_spawn_coords = (data['x'], data['y'], 0)
+        composite_spawn_coords = (data['x'] + (data['width'] / 2), data['y'] + (data['height'] / 2), 0)
+        #composite_spawn_coords = (data['x'], data['y'], 0)
 
-        spawned_actor = spawn_sprite_in_world(compositeSprite, (composite_spawn_coords))
+        # if index == 0: 
+        #     composite_spawn_coords = (data['x'], 0, data['y'])
+        # else:
+        #     xCoord = data['x'] + loaded_data[index - 1]['x'] / 2
+        #     yCoord = data['y'] + loaded_data[index - 1]['y'] / 2
+        #     composite_spawn_coords = (xCoord, 0, yCoord)
 
-        print(spawned_actor)
+        loaded_data.append(data)
+
+        sprite_scale = (1, 1, 1)
+
+        spawned_composite_actor = spawn_sprite_in_world(composite_sprite, (composite_spawn_coords), sprite_scale)
+
+        print(spawned_composite_actor)
+
+        find_collision_areas(full_path_data)
 
     #Get all files for all directories and map them
     #newPath = os.path.dirname(os.path.dirname(simplifiedPath))
@@ -157,17 +164,8 @@ def importWorld():
     # #     pprint.pprint(vars(result))
     
 ##run()
-    
-def onButtonClick():
-    project_dir = unreal.Paths.project_dir()
-    widget_dir = project_dir + "Content/Python/m"
-    widgetBlueprint = unreal.load_object(None, widget_dir)
-    widget = unreal.EditorUserWidget.create_instance(widgetBlueprint)
-    json = widget.get_named_slot_content('textBox').get_text().to_string()
-    importWorld(json)
 
 def load_texture_asset(texture_path):
-    # Load the texture asset
     texture = unreal.EditorAssetLibrary.load_asset(texture_path)
     return texture
 
@@ -175,7 +173,7 @@ def create_sprite_from_texture(texture_asset: unreal.PaperSprite, world_name):
     try:
         # Specify the path where you want to save the sprite
         sprite_path = "/Game/LdtkFiles"
-        sprite_name = f"{world_name}_{texture_asset.get_name()}_sprite"
+        sprite_name = f"LDtk_{world_name}_{texture_asset.get_name()}_sprite"
 
         # Create a new package to store the sprite
         sprite_package = unreal.AssetToolsHelpers.get_asset_tools().create_asset(asset_name=sprite_name, package_path=sprite_path, asset_class=unreal.PaperSprite, factory=unreal.PaperSpriteFactory())
@@ -188,26 +186,27 @@ def create_sprite_from_texture(texture_asset: unreal.PaperSprite, world_name):
     except:
         pass
          
-def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=1.0):
-    # Spawn the sprite in the world at the specified location
+def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=(1, 1, 1)):
 
     # world = unreal.EditorLevelLibrary.get_editor_world() TODO: determined if really useless or not 
-
+    
     spawn_location = unreal.Vector(location[0], location[1], location[2])
     
-    # Set the scale vector
-    scale_vector = unreal.Vector(scale, scale, scale)
+    scale_vector = unreal.Vector(scale[0], scale[1], scale[2])
+
+    actor_transform = unreal.Transform(spawn_location, unreal.Rotator(270, 0, 0), scale_vector)
     
-    actor = unreal.EditorLevelLibrary.spawn_actor_from_object(sprite, spawn_location, transient=False)
+    actor = unreal.EditorLevelLibrary.spawn_actor_from_object(sprite, spawn_location)
     if actor:
         # Get the PaperSpriteComponent attached to the actor
         sprite_component = actor.render_component
         if sprite_component:
-            # Set the sprite for the PaperSpriteComponent
+
             sprite_component.set_sprite(sprite)
             
-            # Set the scale of the actor
             actor.set_actor_scale3d(scale_vector)
+            
+            actor.set_actor_transform(actor_transform, False, True)
             
             return actor
     return None
@@ -222,7 +221,7 @@ def spawn_paper2d_image(png_path, position=(0, 0, 0), scale=(1, 1, 1)):
     if texture_asset:
         sprite = create_sprite_from_texture(texture_asset)
         if sprite:
-            spawn_location = (0, 0, 0)  # Spawn location in the world
+            spawn_location = (0, 0, 0) 
             spawned_actor = spawn_sprite_in_world(sprite, spawn_location)
             if spawned_actor:
                 print("Sprite spawned successfully.")
