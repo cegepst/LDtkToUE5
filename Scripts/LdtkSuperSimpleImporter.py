@@ -7,6 +7,23 @@ import os
 from enum import Enum
 from typing import Any, List, Optional, Dict, TypeVar, Type, Callable, cast
 
+from PIL import Image
+
+def convert_transparent_to_black_and_white(image_path, save_path):
+    img = Image.open(image_path)
+    img = img.convert("RGBA")
+    new_img = Image.new("RGBA", img.size, (255, 255, 255, 255))
+    
+    for x in range(img.width):
+        for y in range(img.height):
+            r, g, b, a = img.getpixel((x, y))
+            if a == 0:
+                new_img.putpixel((x, y), (0, 0, 0, 255))
+            else:
+                new_img.putpixel((x, y), (255, 255, 255, 255))
+    
+    new_img.save(save_path)
+
 def find_all_subfolders(path):
     subfolders = []
     
@@ -97,14 +114,6 @@ def importWorld():
         data_file = open(full_path_data)
         data = json.load(data_file)
         composite_spawn_coords = (data['x'] + (data['width'] / 2), data['y'] + (data['height'] / 2), 0)
-        #composite_spawn_coords = (data['x'], data['y'], 0)
-
-        # if index == 0: 
-        #     composite_spawn_coords = (data['x'], 0, data['y'])
-        # else:
-        #     xCoord = data['x'] + loaded_data[index - 1]['x'] / 2
-        #     yCoord = data['y'] + loaded_data[index - 1]['y'] / 2
-        #     composite_spawn_coords = (xCoord, 0, yCoord)
 
         loaded_data.append(data)
 
@@ -114,56 +123,25 @@ def importWorld():
 
         print(spawned_composite_actor)
 
-        find_collision_areas(full_path_data)
-
-    #Get all files for all directories and map them
-    #newPath = os.path.dirname(os.path.dirname(simplifiedPath))
-    #content = get_directory_contents(newPath)
-    #first_directory = list(content.keys())[0]
-    #composite_file = '_composite.png'
-    #complete_file_path = os.path.join(first_directory, composite_file)
-
-    #users_index = complete_file_path.find("LDtkToUE5")
-    #if users_index != -1:
-    #    complete_file_path = complete_file_path[users_index:]
-
-    #complete_file_path = '\\' + complete_file_path
-
-    #spawn_paper2d_image(complete_file_path)
-    #spawn_paper2d_image("/ldtk_levels/test/simplified/Bottom/_bg.png")
-
-    # #Get content of each directory
-    # for directory in directories :
-    #     content = get_directory_contents(newPath)
-
-
-    ##check filetype
-    # _, file_extension = os.path.splitext(ldtkFilePath)
-
-    # if file_extension == '.ldtk': 
-
-    #     print("Processing .ldtk file")
-
-    #     with open(ldtkFilePath, 'r') as file:
-    #         json_content = file.read()
-    #     result = ldtk_json_from_dict(json.loads(json_content))
-    #     print('LDtk levels loaded successfully: %s', result)
-    #     pprint.pprint(vars(result))
-
-    # # elif file_extension == '.json':
-
-    # #     print("Processing .json file")
-
-    # #     factory = unreal.PaperTiledImporterFactory
-    # #     factory.asset_import_task()
-
-    # #     with open(ldtkFilePath, 'r') as file:
-    # #         json_content = file.read()
-    # #     result = unreal.PaperTiledImporterFactory(json.loads(json_content))
-    # #     print('Tiled JSON file loaded successfully: %s', result)
-    # #     pprint.pprint(vars(result))
+        #find_collision_areas(full_path_data)
     
 ##run()
+
+def check_and_delete_existing_sprite(sprite_name):
+    # Check if the sprite exists in the content folder
+    sprite_path = "/Game/LdtkFiles/" + sprite_name
+
+    all_actors = unreal.EditorLevelLibrary.get_all_level_actors()
+    for actor in all_actors:
+        if actor.get_actor_label() == sprite_name:
+            # Delete the sprite from the game world
+            unreal.EditorLevelLibrary.destroy_actor(actor)
+            break
+
+    if unreal.EditorAssetLibrary.does_asset_exist(sprite_path):
+        # Delete the sprite from the content folder
+        unreal.EditorAssetLibrary.delete_asset(sprite_path)
+    
 
 def load_texture_asset(texture_path):
     texture = unreal.EditorAssetLibrary.load_asset(texture_path)
@@ -174,6 +152,8 @@ def create_sprite_from_texture(texture_asset: unreal.PaperSprite, world_name):
         # Specify the path where you want to save the sprite
         sprite_path = "/Game/LdtkFiles"
         sprite_name = f"LDtk_{world_name}_{texture_asset.get_name()}_sprite"
+
+        check_and_delete_existing_sprite(sprite_name=sprite_name)
 
         # Create a new package to store the sprite
         sprite_package = unreal.AssetToolsHelpers.get_asset_tools().create_asset(asset_name=sprite_name, package_path=sprite_path, asset_class=unreal.PaperSprite, factory=unreal.PaperSpriteFactory())
@@ -267,6 +247,8 @@ def spawn_paper2d_image(png_path, position=(0, 0, 0), scale=(1, 1, 1)):
 importWorld()
 
 #noinspection PyUnresolvedReferences
-print(full_path) ## Value from locals given by unreal python node in the exec function
-print(project_dir_path)
+# print(full_path) ## Value from locals given by unreal python node in the exec function
+# print(project_dir_path)
 print(datetime.datetime.now())
+convert_transparent_to_black_and_white("C:/Users/Isabel/Desktop/tests/tmp/simplified/Bottom/Collisions.png", "C:/Users/Isabel/Desktop/tests/output.png")
+
