@@ -4,10 +4,68 @@ import json
 import pprint
 import datetime
 import os
+import csv
 from enum import Enum
 from typing import Any, List, Optional, Dict, TypeVar, Type, Callable, cast
 
 from PIL import Image
+
+def find_adjacent_cells(data, x, y, visited=None):
+    if visited is None:
+        visited = set()
+    
+    # Base case: if the cell is not 1 or already visited, return an empty list
+    if data[y][x] != '1' or (x, y) in visited:
+        return []
+    
+    # Mark the current cell as visited
+    visited.add((x, y))
+    
+    # List to hold the coordinates of the adjacent cells
+    adjacent_cells = [(x, y)]
+    
+    # Directions to check for adjacent cells (up, down, left, right)
+    directions = [(0, -1), (0, 1), (-1, 0), (1, 0)]
+    
+    for dx, dy in directions:
+        nx, ny = x + dx, y + dy
+        # Check if the new coordinates are within the bounds of the data list
+        if 0 <= nx < len(data[0]) and 0 <= ny < len(data):
+            adjacent_cells.extend(find_adjacent_cells(data, nx, ny, visited))
+    
+    return adjacent_cells
+
+def add_colliders_from_csv(csv_path, sprite_actor):
+    # Open the CSV file
+    with open(csv_path, 'r') as file:
+        reader = csv.reader(file)
+        # Convert the CSV data into a 2D list
+        data = [list(row) for row in reader]
+    
+    # Iterate through each cell in the CSV data
+    for y in range(len(data)):
+        for x in range(len(data[y])): # Directly iterate over the cells in the row
+            # If the cell's value is 1, find all adjacent cells with a value of 1
+            if data[y][x] == '1':
+                group = find_adjacent_cells(data, x, y)
+                
+                # Calculate the size and position of the collider based on the group
+                min_x = min(cell[0] for cell in group)
+                max_x = max(cell[0] for cell in group)
+                min_y = min(cell[1] for cell in group)
+                max_y = max(cell[1] for cell in group)
+                
+                collider_size = unreal.Vector((max_x - min_x + 1) * 16, (max_y - min_y + 1) * 16, 1)
+                collider_position = unreal.Vector(min_x * 16, min_y * 16, 0)
+                
+                # Create a box collider for the group
+                collider = unreal.EditorLevelLibrary.spawn_actor_from_class(unreal.BoxComponent, collider_position, unreal.Rotator(0, 0, 0))
+                
+                # Set the size of the collider
+                collider.set_editor_property('relative_scale_3d', collider_size)
+                
+                # Attach the collider to the sprite actor
+                collider.attach_to_actor(sprite_actor, '', unreal.AttachmentRule.KEEP_RELATIVE, '')
 
 def convert_transparent_to_black_and_white(image_path, save_path):
     img = Image.open(image_path)
@@ -93,6 +151,7 @@ def importWorld():
 
     composite_filename = "_composite"
     data_filename = "data.json"
+    collisions_filename = "Collisions.csv"
 
     directories = find_all_subfolders(level_directory)
     print("Level directory: " + level_directory)
@@ -121,25 +180,26 @@ def importWorld():
 
         spawned_composite_actor = spawn_sprite_in_world(composite_sprite, (composite_spawn_coords), sprite_scale)
 
-        print(spawned_composite_actor)
+        print(f"Spawned this actor: {spawned_composite_actor}")
+
+        collisions_csv = os.path.join(level_directory, directory_name, collisions_filename).replace("\\", "/")
+
+        # TODO: make this work ! add_colliders_from_csv(collisions_csv, spawned_composite_actor)
 
         #find_collision_areas(full_path_data)
     
 ##run()
 
 def check_and_delete_existing_sprite(sprite_name):
-    # Check if the sprite exists in the content folder
     sprite_path = "/Game/LdtkFiles/" + sprite_name
 
     all_actors = unreal.EditorLevelLibrary.get_all_level_actors()
     for actor in all_actors:
         if actor.get_actor_label() == sprite_name:
-            # Delete the sprite from the game world
             unreal.EditorLevelLibrary.destroy_actor(actor)
             break
 
     if unreal.EditorAssetLibrary.does_asset_exist(sprite_path):
-        # Delete the sprite from the content folder
         unreal.EditorAssetLibrary.delete_asset(sprite_path)
     
 
@@ -149,18 +209,14 @@ def load_texture_asset(texture_path):
 
 def create_sprite_from_texture(texture_asset: unreal.PaperSprite, world_name):
     try:
-        # Specify the path where you want to save the sprite
         sprite_path = "/Game/LdtkFiles"
         sprite_name = f"LDtk_{world_name}_{texture_asset.get_name()}_sprite"
 
         check_and_delete_existing_sprite(sprite_name=sprite_name)
 
-        # Create a new package to store the sprite
         sprite_package = unreal.AssetToolsHelpers.get_asset_tools().create_asset(asset_name=sprite_name, package_path=sprite_path, asset_class=unreal.PaperSprite, factory=unreal.PaperSpriteFactory())
-        # Add the sprite to the package
         sprite_package.set_editor_property("source_texture", texture_asset)
 
-        # Print the path where the sprite is saved
         print("Sprite saved at: ", sprite_path)
         return sprite_package
     except:
