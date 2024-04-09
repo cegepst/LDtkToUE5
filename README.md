@@ -92,7 +92,7 @@ LdtkFiles
 
 - This copies over all the original files that are required for calculations by our Python script. If not done, the script will return errors because it could not find the required files, like for example `data.json`, `Collisions.csv`, etc.
 
-- You can also drag and drop the files, but you will likely lose the original files from the export inside of the original directory, because they will be transferred over.
+- You can also drag and drop the files, but you will likely lose the original files from the export inside of the original directory, because they will be transferred over to the UE5 project.
 
 14. Reopen UE5
 15. Click `Don't import` on the prompt at the bottom left of the screen when the editor opens
@@ -163,41 +163,42 @@ Les étapes ci-dessous prennent en compte notre solution temporaire
 
 - Le niveau va dorénavant être correctement exporté.
 
-## Importing your exported LDtk level
+## L'importation de votre niveau LDtk
 
-1. Open the UE5 editor
-2. Access the `Content` directory in the content browser
-3. Create a new folder, called exactly like the following:
+1. Ouvrez UE5
+2. Accédez le dossier `Content` dans le *content browser*
+3. Créez un nouveau dossier, appelé exactement comme ci-dessous:
 
 ```
 LdtkFiles
 ```
 
-4. Open the newly created `LdtkFiles` folder
+4. Ouvrez le dossier nouvellement créé `LdtkFiles`
 
-5. Inside of your operating system's file browser, access your exported level
-6. Access the `simplified` folder
+5. À partir de l'explorateur de fichier de votre système d'exploitation, ouvrez le dossier de votre niveau exporté
+6. Accédez au dossier `simplified`
 
-- Keep it open, you'll need it later
+- Gardez le ouvert, vous allez en avoir besoin plus tard
 
-7. Take the `simplified` folder, and drop it inside of UE5's content browser, inside of the `LdtkFiles` folder
-8. A menu will open asking to import. The selected option does not matter, but I recommend selecting `Data table` and `CollisionEvent` for the options, as we know they do not cause any issues
-9. Import all of the prompted imports
-10. When done, close UE5, and select `Save Selected`
-11. Access the `LdtkFiles` folder inside of your operating system's file browser
-12. Access the original `simplified` folder from your exported level, which you kept open earlier.
-13. Copy and Paste it into the UE5 project's `LdtkFiles` folder.
+7. Prenez le dossier `simplified`, et déposez le dans le *content browser* de UE5, à l'intérieur du dossier `LdtkFiles`
+8. Un menu va ouvrir vous demandant des options pour l'importation de certains fichiers. Le choix n'importe peu, mais nous recommandons de choisir les options `Data table` et `CollisionEvent`, car nous savons qu'ils fonctionnent sans causer de problèmes
+9. Importez tous les fichiers demandés
+10. Lorsque fini, fermez UE5, et sélectionnez `Save Selected`
+11. Accédez au dossier `LdtkFiles` à l'intérieur de l'explorateur de fichier de votre système d'exploitation
+12. Accédez au dossier `simplified` original, provenant de votre niveau exporté, que vous avez gardez ouvert plus tôt
+13. Copiez et collez le à l'intérieur de dossier `LdtkFiles` du projet
 
-- This copies over all the original files that are required for calculations by our Python script. If not done, the script will return errors because it could not find the required files, like for example `data.json`, `Collisions.csv`, etc.
-- You can also drag and drop the files, but you will likely lose the original files from the export inside of the original directory, because they will be transferred over.
+- Cela copie l'entièreté des fichiers originaux qui sont requis pour les calculs de notre script Python. Si cette étape n'est pas suivie, notre script retournera une erreur, car il ne pourra pas trouver certain fichiers requis, comme par exemple `data.json`, `Collisions.csv`, etc.
 
-14. Reopen UE5
-15. Click `Don't import` on the prompt at the bottom left of the screen when the editor opens
-16. Access the `Python` folder inside of the content browser
-17. Right-click on the `Main_Window` Editor Utility Widget
-18. Click on `Run Editor Utility Widget`
-19. Click on the yellow `Import` button
-20. Enjoy !
+- Vous pouvez aussi prendre et déposer les fichiers, mais vous risquez de perdre les fichiers exportés originaux, car ils seront transférés vers le projet UE5.
+
+14. Réouvrez UE5
+15. Cliquez sur `Don't import` lorsque le message apparait au bas à droite de la page de l'éditeur
+16. Accédez au dossier `Python` à l'intérieur du *content browser*
+17. Faites un clique droit sur le *Editor Utility Widget* nommé `Main_Window`
+18. Cliquez sur `Run Editor Utility Widget`
+19. Cliquez sur le bouton jaune `Importer`
+20. Amusez-vous bien avec votre nouveau dans UE5 !
 
 
 
