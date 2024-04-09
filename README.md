@@ -1,13 +1,21 @@
-# Python dependencies
-- numpy
-- Pillow
-- cv2
-- unreal
+# LDtk level importer for Unreal Engine 5
 
-## How to install dependencies to Unreal Engine 5 Python interpreter
-- Move to the install location
-`C:\Program Files\Epic Games\UE_5.3\Engine\Binaries\ThirdParty\Python3\Win64>`
+TODO: LIEN Documentation (EN)
+TODO: LIEN Documentation (FR)
 
-- Open the terminal at this location
-- Enter the following command
-  `python.exe -m pip install Pillow numpy unreal opencv-python`
+
+
+# Documentation (EN)
+
+## Description
+
+## Setup and Usage guide
+
+
+
+# Documentation (FR)
+
+## Description
+
+## Guide d'installation et d'utilisation
+
