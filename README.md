@@ -40,25 +40,24 @@ TODO: Add project description...
 
 - This is important, as it will not show in the operating system's content browser until there is content inside of it.
 
-3. Télécharger le projet en fichier zip
-4. Extraire le contenu du zip
-5. Ouvrir le dossier Python du projet à l'intérieur de l'explorateur de fichier de votre système d'exploitation
-7. Ouvrez les fichiers extraits, et accéder au dossier dans lequel le script Python et le widget est entreposé. (Les fichiers dans `unreal-ldtk-main`)
-8. Prenez et déposez les fichiers extraits (pas le dossier principal, mais les fichiers à l'intérieur) dans le dossier Python
-9. Redémarrez UE5
+3. Download the project as a zip file
+4. Extract the content
+5. Open your projects Python folder inside of your operating system's file browser
+7. Open the extracted files, and access the directory in which the python scripts and the widgets are contained (The files inside `unreal-ldtk-main`)
+8. Drag and drop the extracted files (not the main folder, but the files within) into the Python folder
+9. Restart UE5
 
-## L'exportation de votre niveau LDtk
+## Exporting your LDtk level correctly
 
-Pour correctement exporter votre niveau LDtk pour l'utiliser avec notre outil, il faut utiliser la fonctionnalité Super Simple Export. Au moment de l'écriture, cette fonctionnalité contient un bug qui impact l'exportation des fichiers. Nous avons trouvé une solution temporaire au problème, et nous avons ouvert une *issue*, décrivant le bug:
-(https://github.com/deepnight/ldtk/issues/1095)
+To correctly export your LDtk level for usage with our tool, you will need to use the Super Simple Export feature. As of writing this, this feature has a bug impacting the export of the files. We found a workaround for this, and opened an issue describing the bug (https://github.com/deepnight/ldtk/issues/1095)
 
-Les étapes ci-dessous prennent en compte notre solution temporaire
+The following steps account for the required workaround
 
-1. Ouvrez votre niveau Ldtk à l'intérieur de l'éditeur LDtk
-2. Accédez le menu *project settings*
-3. Activez Super Simple Export
-4. Cliquez sur `Save As`
-5. Fermez LDtk
+1. Open your LDtk level inside of the LDtk editor
+2. Access the project settings menu
+3. Enable Super Simple Export
+4. Click `Save As`
+5. Close LDtk
 6. Access your exported level inside of your operating system's file browser
 7. Double-click on the LDtk file to reopen the level inside of the editor
 8. Access the project settings menu
@@ -137,24 +136,25 @@ TODO: Add project description...
 
 - Ceci est important, car sinon, le dossier ne s'affichera pas à l'intérieur de l'explorateur de fichier de votre système d'exploitation.
 
-3. Download the project as a zip file
-4. Extract the content
-5. Open your projects Python folder inside of your operating system's file browser
-7. Open the extracted files, and access the directory in which the python scripts and the widgets are contained (The files inside `unreal-ldtk-main`)
-8. Drag and drop the extracted files (not the main folder, but the files within) into the Python folder
-9. Restart UE5
+3. Télécharger le projet en fichier zip
+4. Extraire le contenu du zip
+5. Ouvrir le dossier Python du projet à l'intérieur de l'explorateur de fichier de votre système d'exploitation
+7. Ouvrez les fichiers extraits, et accéder au dossier dans lequel le script Python et le widget est entreposé. (Les fichiers dans `unreal-ldtk-main`)
+8. Prenez et déposez les fichiers extraits (pas le dossier principal, mais les fichiers à l'intérieur) dans le dossier Python
+9. Redémarrez UE5
 
-## Exporting your LDtk level correctly
+## L'exportation de votre niveau LDtk
 
-To correctly export your LDtk level for usage with our tool, you will need to use the Super Simple Export feature. As of writing this, this feature has a bug impacting the export of the files. We found a workaround for this, and opened an issue describing the bug (https://github.com/deepnight/ldtk/issues/1095)
+Pour correctement exporter votre niveau LDtk pour l'utiliser avec notre outil, il faut utiliser la fonctionnalité Super Simple Export. Au moment de l'écriture, cette fonctionnalité contient un bug qui impact l'exportation des fichiers. Nous avons trouvé une solution temporaire au problème, et nous avons ouvert une *issue*, décrivant le bug:
+(https://github.com/deepnight/ldtk/issues/1095)
 
-The following steps account for the required workaround
+Les étapes ci-dessous prennent en compte notre solution temporaire
 
-1. Open your LDtk level inside of the LDtk editor
-2. Access the project settings menu
-3. Enable Super Simple Export
-4. Click `Save As`
-5. Close LDtk
+1. Ouvrez votre niveau Ldtk à l'intérieur de l'éditeur LDtk
+2. Accédez le menu *project settings*
+3. Activez Super Simple Export
+4. Cliquez sur `Save As`
+5. Fermez LDtk
 6. Access your exported level inside of your operating system's file browser
 7. Double-click on the LDtk file to reopen the level inside of the editor
 8. Access the project settings menu
