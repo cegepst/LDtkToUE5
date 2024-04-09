@@ -132,7 +132,6 @@ TODO: Add project description...
 
 1. Trouvez le dossier nouvellement créé, nommé Python, dans le Content Browser de l'éditeur
 2. Créé un dossier vide à l'intérieur
-- This is important, as it will not show in the operating system's content browser until there is content inside of it.
 
 - Ceci est important, car sinon, le dossier ne s'affichera pas à l'intérieur de l'explorateur de fichier de votre système d'exploitation.
 
@@ -155,14 +154,14 @@ Les étapes ci-dessous prennent en compte notre solution temporaire
 3. Activez Super Simple Export
 4. Cliquez sur `Save As`
 5. Fermez LDtk
-6. Access your exported level inside of your operating system's file browser
-7. Double-click on the LDtk file to reopen the level inside of the editor
-8. Access the project settings menu
-9. Click `Save Project`
+6. Accédez le niveau exporté à partir de l'explorateur de fichiers de votre système
+7. Double-cliquez sur le fichier LDtk de votre niveau pour le réouvrir à l'intérieur de l'éditeur LDtk
+8. Accédez le menu *project settings*
+9. Cliquez sur `Save Project`
 
-- The level will now correctly export
+- Le niveau va dorénavant être correctement exporté.
 
-## Importing your exported LDtk level 
+## Importing your exported LDtk level
 
 1. Open the UE5 editor
 2. Access the `Content` directory in the content browser
