@@ -110,3 +110,4 @@ The following steps account for the required workaround
 
 - [Unreal Python API](https://docs.unrealengine.com/5.3/en-US/PythonAPI/)
 - [Tutorial on how to setup UE5 with Unreal Engine](https://tuataragames.notion.site/Getting-started-with-Python-in-Unreal-Engine-5191d0a16b424d66b08b132d5764cefd)
+- [Level Design toolkit (LDtk)](https://ldtk.io/)
