@@ -71,7 +71,9 @@ The following steps account for the required workaround
 2. Access the `Content` directory in the content browser
 3. Create a new folder, called exactly like the following:
 
-- ```LdtkFiles```
+```
+LdtkFiles
+```
 
 4. Open the newly created `LdtkFiles` folder
 
@@ -167,7 +169,9 @@ Les étapes ci-dessous prennent en compte notre solution temporaire
 2. Access the `Content` directory in the content browser
 3. Create a new folder, called exactly like the following:
 
-- ```LdtkFiles```
+```
+LdtkFiles
+```
 
 4. Open the newly created `LdtkFiles` folder
 
