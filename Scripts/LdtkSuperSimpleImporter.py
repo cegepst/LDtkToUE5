@@ -10,62 +10,47 @@ from typing import Any, List, Optional, Dict, TypeVar, Type, Callable, cast
 
 from PIL import Image
 
-def find_adjacent_cells(data, x, y, visited=None):
-    if visited is None:
+def find_collision_areas(collisions_filepath):
+    def find_connected_components(grid):
         visited = set()
-    
-    # Base case: if the cell is not 1 or already visited, return an empty list
-    if data[y][x] != '1' or (x, y) in visited:
-        return []
-    
-    # Mark the current cell as visited
-    visited.add((x, y))
-    
-    # List to hold the coordinates of the adjacent cells
-    adjacent_cells = [(x, y)]
-    
-    # Directions to check for adjacent cells (up, down, left, right)
-    directions = [(0, -1), (0, 1), (-1, 0), (1, 0)]
-    
-    for dx, dy in directions:
-        nx, ny = x + dx, y + dy
-        # Check if the new coordinates are within the bounds of the data list
-        if 0 <= nx < len(data[0]) and 0 <= ny < len(data):
-            adjacent_cells.extend(find_adjacent_cells(data, nx, ny, visited))
-    
-    return adjacent_cells
+        components = []
 
-def add_colliders_from_csv(csv_path, sprite_actor):
-    # Open the CSV file
-    with open(csv_path, 'r') as file:
+        def dfs(x, y):
+            if (x, y) not in grid or grid[(x, y)] != 1 or (x, y) in visited:
+                return
+
+            visited.add((x, y))
+            component.append((x, y))
+
+            dfs(x-1, y)
+            dfs(x+1, y)
+            dfs(x, y-1)
+            dfs(x, y+1)
+
+        for x in range(len(grid)):
+            for y in range(len(grid[0])):
+                if grid[(x, y)] == 1 and (x, y) not in visited:
+                    component = []
+                    dfs(x, y)
+                    components.append(component)
+
+        return components
+
+    with open(collisions_filepath, 'r') as file:
         reader = csv.reader(file)
-        # Convert the CSV data into a 2D list
-        data = [list(row) for row in reader]
-    
-    # Iterate through each cell in the CSV data
-    for y in range(len(data)):
-        for x in range(len(data[y])): # Directly iterate over the cells in the row
-            # If the cell's value is 1, find all adjacent cells with a value of 1
-            if data[y][x] == '1':
-                group = find_adjacent_cells(data, x, y)
-                
-                # Calculate the size and position of the collider based on the group
-                min_x = min(cell[0] for cell in group)
-                max_x = max(cell[0] for cell in group)
-                min_y = min(cell[1] for cell in group)
-                max_y = max(cell[1] for cell in group)
-                
-                collider_size = unreal.Vector((max_x - min_x + 1) * 16, (max_y - min_y + 1) * 16, 1)
-                collider_position = unreal.Vector(min_x * 16, min_y * 16, 0)
-                
-                # Create a box collider for the group
-                collider = unreal.EditorLevelLibrary.spawn_actor_from_class(unreal.BoxComponent, collider_position, unreal.Rotator(0, 0, 0))
-                
-                # Set the size of the collider
-                collider.set_editor_property('relative_scale_3d', collider_size)
-                
-                # Attach the collider to the sprite actor
-                collider.attach_to_actor(sprite_actor, '', unreal.AttachmentRule.KEEP_RELATIVE, '')
+        data = list(reader)
+
+    grid = {}
+    for y, row in enumerate(data):
+        for x, value in enumerate(row):
+            grid[(x, y)] = int(value)
+
+    return find_connected_components(grid)
+
+def spawn_collision_object(x, y, composite_actor):
+    collider = unreal.EditorLevelLibrary.spawn_actor_from_class(unreal.BoxComponent, (x, y, 0), (0, 0, 0))
+    collider.set_actor_scale3d(unreal.Vector(1, 1, 1))
+    collider.attach_to_actor(composite_actor, '', unreal.AttachmentRule.SNAP_TO_TARGET, unreal.AttachmentRule.SNAP_TO_TARGET, unreal.AttachmentRule.SNAP_TO_TARGET, True)
 
 def convert_transparent_to_black_and_white(image_path, save_path):
     img = Image.open(image_path)
@@ -102,10 +87,8 @@ def get_directory_contents(path: str) -> dict:
     directory_contents = {}
 
     for root, dirs, files in os.walk(path):
-        # Normalize the root path to avoid double backslashes
         root = os.path.normpath(root)
         
-        # Filter out files that do not match the specified names
         filtered_files = [file for file in files if file.endswith(('_bg.png', '_composite.png', 'Bg_textures.png', 'Collisions.csv', 'Collisions.png', 'Collisions-int.png', 'data.json', 'Wall_shadows.png'))]
 
         if filtered_files:
@@ -113,32 +96,6 @@ def get_directory_contents(path: str) -> dict:
 
     return directory_contents
 
-# TODO : determine if needed
-
-# def createLevelsDirectory():
-#     current_directory = unreal.Paths.project_content_dir()
-
-#     ## TODO: Find a way to not have to do this when the computer's local is not english, other wise it does not find the folder at the path
-#     current_directory = current_directory.replace("Users", "Utilisateurs")
-
-#     # Specify the directory name
-#     directory_name = "Levels"
-
-#     # Get the absolute path of the directory within the project
-#     directory_path = os.path.join(current_directory, directory_name)
-
-#     # Check if the directory already exists
-#     if not os.path.exists(directory_path):
-#         try:
-#             # Create the directory if it doesn't exist
-#             os.makedirs(directory_path)
-#             print(f"Directory '{directory_name}' created successfully at: {directory_path}")
-#         except Exception as e:
-#             # Print an error message if any error occurs
-#             print(f"An error occurred: {e}")
-#     else:
-#         print(f"Directory '{directory_name}' already exists at: {directory_path}")
-    
 def importWorld():
     content_directory = unreal.Paths.project_content_dir()
     level_files_location = "LdtkFiles/simplified"
@@ -183,12 +140,10 @@ def importWorld():
         print(f"Spawned this actor: {spawned_composite_actor}")
 
         collisions_csv = os.path.join(level_directory, directory_name, collisions_filename).replace("\\", "/")
-
-        # TODO: make this work ! add_colliders_from_csv(collisions_csv, spawned_composite_actor)
-
-        #find_collision_areas(full_path_data)
-    
-##run()
+        # collision_areas = find_collision_areas(collisions_csv)
+        # for area in collision_areas:
+        #     for x, y in area:
+        #         spawn_collision_object(x, y, spawned_composite_actor)
 
 def check_and_delete_existing_sprite(sprite_name):
     sprite_path = "/Game/LdtkFiles/" + sprite_name
@@ -224,8 +179,6 @@ def create_sprite_from_texture(texture_asset: unreal.PaperSprite, world_name):
          
 def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=(1, 1, 1)):
 
-    # world = unreal.EditorLevelLibrary.get_editor_world() TODO: determined if really useless or not 
-    
     spawn_location = unreal.Vector(location[0], location[1], location[2])
     
     scale_vector = unreal.Vector(scale[0], scale[1], scale[2])
@@ -234,7 +187,6 @@ def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=(1, 1, 1)):
     
     actor = unreal.EditorLevelLibrary.spawn_actor_from_object(sprite, spawn_location)
     if actor:
-        # Get the PaperSpriteComponent attached to the actor
         sprite_component = actor.render_component
         if sprite_component:
 
@@ -247,58 +199,6 @@ def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=(1, 1, 1)):
             return actor
     return None
 
-def spawn_paper2d_image(png_path, position=(0, 0, 0), scale=(1, 1, 1)):
-    base_directory = "/Game"
-    ldtk_files_path = "LdtkFiles"
-    filename = "amogus"
-    full_path = os.path.join(base_directory, ldtk_files_path, filename)
-
-    texture_asset = load_texture_asset(full_path)
-    if texture_asset:
-        sprite = create_sprite_from_texture(texture_asset)
-        if sprite:
-            spawn_location = (0, 0, 0) 
-            spawned_actor = spawn_sprite_in_world(sprite, spawn_location)
-            if spawned_actor:
-                print("Sprite spawned successfully.")
-            else:
-                print("Failed to spawn sprite in the world.")
-        else:
-            print("Failed to create sprite.")
-    else:
-        print("Failed to load texture asset.")
-
-
-    # project_dir = unreal.Paths.project_dir().lstrip("../")
-    # file_path = os.path.join(project_dir, png_path)
-
-    # print("Searching for: " + file_path)
-    # if os.path.isfile(file_path):
-    #     relative_path = os.path.join(png_path)
-    #     texture = unreal.EditorAssetLibrary.load_asset(relative_path)
-
-    # else:
-    #     unreal.log_warning(f"File not found: {file_path}")
-
-    # project_dir = unreal.Paths.project_dir()
-    # absolute_path = os.path.join(project_dir, png_path)
-
-    # print(f"Absolute path : {absolute_path}")
-
-    # # Check if the file exists
-    # if not os.path.isfile(absolute_path):
-    #     unreal.log_warning(f"File not found: {absolute_path}")
-    #     return None
-
-    # # Load the PNG file as a texture
-    # relative_path = os.path.join(png_path)
-    # texture2d = unreal.EditorAssetLibrary.load_asset(relative_path)
-
-    # # Check if the texture is valid
-    # if not texture2d:
-    #     unreal.log_warning(f"Failed to load the texture from path: {absolute_path}")
-    #     return None
-
 #noinspection PyUnresolvedReferences
 importWorld()
 
@@ -306,5 +206,3 @@ importWorld()
 # print(full_path) ## Value from locals given by unreal python node in the exec function
 # print(project_dir_path)
 print(datetime.datetime.now())
-convert_transparent_to_black_and_white("C:/Users/Isabel/Desktop/tests/tmp/simplified/Bottom/Collisions.png", "C:/Users/Isabel/Desktop/tests/output.png")
-
