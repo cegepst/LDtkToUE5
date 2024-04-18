@@ -5,67 +5,72 @@ import pprint
 import datetime
 import os
 import csv
+import uuid
 from enum import Enum
 from typing import Any, List, Optional, Dict, TypeVar, Type, Callable, cast
 
 from PIL import Image
 
-def find_collision_areas(collisions_filepath):
-    def find_connected_components(grid):
-        visited = set()
-        components = []
-
-        def dfs(x, y):
-            if (x, y) not in grid or grid[(x, y)] != 1 or (x, y) in visited:
-                return
-
-            visited.add((x, y))
-            component.append((x, y))
-
-            dfs(x-1, y)
-            dfs(x+1, y)
-            dfs(x, y-1)
-            dfs(x, y+1)
-
-        for x in range(len(grid)):
-            for y in range(len(grid[0])):
-                if grid[(x, y)] == 1 and (x, y) not in visited:
-                    component = []
-                    dfs(x, y)
-                    components.append(component)
-
-        return components
-
-    with open(collisions_filepath, 'r') as file:
+def load_csv(file_path):
+    grid = []
+    with open(file_path, 'r') as file:
         reader = csv.reader(file)
-        data = list(reader)
+        for row in reader:
+            # Process each row and handle empty cells
+            grid_row = []
+            for cell in row:
+                # Convert the cell to an integer if it's not empty
+                if cell.strip() == '':
+                    grid_row.append(0)  # Use a default value for empty cells
+                else:
+                    grid_row.append(int(cell))
+            # Append the processed row to the grid
+            grid.append(grid_row)
+    return grid
 
-    grid = {}
-    for y, row in enumerate(data):
-        for x, value in enumerate(row):
-            grid[(x, y)] = int(value)
+def create_collision(actor: unreal.PaperSpriteActor, x, y, tile_size):
+    initial_children_count = actor.root_component.get_num_children_components()
 
-    return find_connected_components(grid)
-
-def spawn_collision_object(x, y, composite_actor):
-    collider = unreal.EditorLevelLibrary.spawn_actor_from_class(unreal.BoxComponent, (x, y, 0), (0, 0, 0))
-    collider.set_actor_scale3d(unreal.Vector(1, 1, 1))
-    collider.attach_to_actor(composite_actor, '', unreal.AttachmentRule.SNAP_TO_TARGET, unreal.AttachmentRule.SNAP_TO_TARGET, unreal.AttachmentRule.SNAP_TO_TARGET, True)
-
-def convert_transparent_to_black_and_white(image_path, save_path):
-    img = Image.open(image_path)
-    img = img.convert("RGBA")
-    new_img = Image.new("RGBA", img.size, (255, 255, 255, 255))
+    subsystem = unreal.get_engine_subsystem(unreal.SubobjectDataSubsystem)
+    root_data_handle = subsystem.k2_gather_subobject_data_for_instance(actor)[0]
     
-    for x in range(img.width):
-        for y in range(img.height):
-            r, g, b, a = img.getpixel((x, y))
-            if a == 0:
-                new_img.putpixel((x, y), (0, 0, 0, 255))
-            else:
-                new_img.putpixel((x, y), (255, 255, 255, 255))
+    collision_component = unreal.BoxComponent()
+    sub_handle, fail_reason = subsystem.add_new_subobject(params=unreal.AddNewSubobjectParams(parent_handle=root_data_handle, new_class=collision_component.get_class()))
+    subsystem.rename_subobject(handle=sub_handle, new_name=unreal.Text(f"LDTK_Collision_{uuid.uuid4()}"))
+
+    new_component: unreal.BoxComponent = actor.root_component.get_child_component(initial_children_count)
+
+    new_component.set_box_extent(unreal.Vector(tile_size / 2, tile_size / 2, 0))
+    new_component.set_relative_location(unreal.Vector((x + (tile_size / 2)), (y + (tile_size / 2)), 0), False, False)
+
+def move_collisions(component: unreal.BoxComponent, x, y, tile_size):
+    component.set_box_extent(unreal.Vector(tile_size / 2, tile_size / 2, 0))
+    component.set_relative_location(unreal.Vector((x + (tile_size / 2)), (y + (tile_size / 2)), 0), False, False)
     
-    new_img.save(save_path)
+def spawn_collisions_from_grid(grid, actor: unreal.PaperSpriteActor):
+    tile_size = 16
+    for row_index, row in enumerate(grid):
+        for col_index, cell in enumerate(row):
+            x = col_index * tile_size
+            y = row_index * tile_size
+
+            if cell == 1:
+                create_collision(actor, x, y, tile_size)
+
+    # subsystem: unreal.SubobjectDataSubsystem = unreal.get_engine_subsystem(unreal.SubobjectDataSubsystem)
+    # root_data_handle: unreal.SubobjectDataHandle = subsystem.k2_gather_subobject_data_for_instance(actor)
+
+    # objects = []
+    # for handle in root_data_handle:
+    #     subobject = subsystem.k2_find_subobject_data_from_handle(handle)
+    #     objects.append( unreal.SubobjectDataBlueprintFunctionLibrary.get_object(subobject))
+
+    # for object in objects:
+    #     if "BoxComponent" in str(object):
+    #         object.set_box_extent(unreal.Vector(tile_size / 2, tile_size / 2, 0))
+    #         object.set_relative_location(unreal.Vector((x + (tile_size / 2)), (y + (tile_size / 2)), 0), False, False)
+
+
 
 def find_all_subfolders(path):
     subfolders = []
@@ -120,12 +125,17 @@ def importWorld():
         print(f"directoryName: {directory_name}")
         full_path_composite = os.path.join(base_path, directory_name, composite_filename)
         full_path_data = os.path.join(level_directory, directory_name, data_filename).replace("\\", "/")
+        full_path_collisions = os.path.join(level_directory, directory_name, collisions_filename).replace("\\", "/")
+
+        ## Creating Sprite ##
 
         composite_texture = load_texture_asset(full_path_composite)
 
         composite_sprite = create_sprite_from_texture(composite_texture, directory_name)
 
         print(f"composite sprite: {composite_sprite}")
+
+        ## Reading JSON file ##
 
         data_file = open(full_path_data)
         data = json.load(data_file)
@@ -139,11 +149,10 @@ def importWorld():
 
         print(f"Spawned this actor: {spawned_composite_actor}")
 
-        collisions_csv = os.path.join(level_directory, directory_name, collisions_filename).replace("\\", "/")
-        # collision_areas = find_collision_areas(collisions_csv)
-        # for area in collision_areas:
-        #     for x, y in area:
-        #         spawn_collision_object(x, y, spawned_composite_actor)
+        ## Spawning Collisions ##
+        
+        grid = load_csv(full_path_collisions)
+        spawn_collisions_from_grid(grid, spawned_composite_actor)
 
 def check_and_delete_existing_sprite(sprite_name):
     sprite_path = "/Game/LdtkFiles/" + sprite_name
@@ -170,6 +179,7 @@ def create_sprite_from_texture(texture_asset: unreal.PaperSprite, world_name):
         check_and_delete_existing_sprite(sprite_name=sprite_name)
 
         sprite_package = unreal.AssetToolsHelpers.get_asset_tools().create_asset(asset_name=sprite_name, package_path=sprite_path, asset_class=unreal.PaperSprite, factory=unreal.PaperSpriteFactory())
+        #unreal.facto
         sprite_package.set_editor_property("source_texture", texture_asset)
 
         print("Sprite saved at: ", sprite_path)
