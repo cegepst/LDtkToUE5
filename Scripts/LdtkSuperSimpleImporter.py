@@ -41,36 +41,17 @@ def create_collision(actor: unreal.PaperSpriteActor, x, y, tile_size):
     new_component: unreal.BoxComponent = actor.root_component.get_child_component(initial_children_count)
 
     new_component.set_box_extent(unreal.Vector(tile_size / 2, tile_size / 2, 0))
-    new_component.set_relative_location(unreal.Vector((x + (tile_size / 2)), (y + (tile_size / 2)), 0), False, False)
-
-def move_collisions(component: unreal.BoxComponent, x, y, tile_size):
-    component.set_box_extent(unreal.Vector(tile_size / 2, tile_size / 2, 0))
-    component.set_relative_location(unreal.Vector((x + (tile_size / 2)), (y + (tile_size / 2)), 0), False, False)
+    new_component.set_relative_location_and_rotation(unreal.Vector((x + (tile_size / 2)), 10, -(y + (tile_size / 2))), unreal.Rotator(90, 0, 0),False, False)
     
-def spawn_collisions_from_grid(grid, actor: unreal.PaperSpriteActor):
+def spawn_collisions_from_grid(grid, actor: unreal.PaperSpriteActor, composite_width, composite_height):
     tile_size = 16
     for row_index, row in enumerate(grid):
         for col_index, cell in enumerate(row):
-            x = col_index * tile_size
-            y = row_index * tile_size
+            x = (col_index * tile_size) - (composite_width / 2)
+            y = row_index * tile_size - (composite_height / 2)
 
             if cell == 1:
                 create_collision(actor, x, y, tile_size)
-
-    # subsystem: unreal.SubobjectDataSubsystem = unreal.get_engine_subsystem(unreal.SubobjectDataSubsystem)
-    # root_data_handle: unreal.SubobjectDataHandle = subsystem.k2_gather_subobject_data_for_instance(actor)
-
-    # objects = []
-    # for handle in root_data_handle:
-    #     subobject = subsystem.k2_find_subobject_data_from_handle(handle)
-    #     objects.append( unreal.SubobjectDataBlueprintFunctionLibrary.get_object(subobject))
-
-    # for object in objects:
-    #     if "BoxComponent" in str(object):
-    #         object.set_box_extent(unreal.Vector(tile_size / 2, tile_size / 2, 0))
-    #         object.set_relative_location(unreal.Vector((x + (tile_size / 2)), (y + (tile_size / 2)), 0), False, False)
-
-
 
 def find_all_subfolders(path):
     subfolders = []
@@ -152,7 +133,7 @@ def importWorld():
         ## Spawning Collisions ##
         
         grid = load_csv(full_path_collisions)
-        spawn_collisions_from_grid(grid, spawned_composite_actor)
+        spawn_collisions_from_grid(grid, spawned_composite_actor, data['width'], data['height'])
 
 def check_and_delete_existing_sprite(sprite_name):
     sprite_path = "/Game/LdtkFiles/" + sprite_name
@@ -193,7 +174,7 @@ def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=(1, 1, 1)):
     
     scale_vector = unreal.Vector(scale[0], scale[1], scale[2])
 
-    actor_transform = unreal.Transform(spawn_location, unreal.Rotator(270, 0, 0), scale_vector)
+    actor_transform = unreal.Transform(spawn_location, unreal.Rotator(0, 0, 0), scale_vector)
     
     actor = unreal.EditorLevelLibrary.spawn_actor_from_object(sprite, spawn_location)
     if actor:
