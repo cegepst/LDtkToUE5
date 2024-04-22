@@ -97,13 +97,12 @@ def importWorld():
     collisions_filename = "Collisions.csv"
 
     directories = find_all_subfolders(level_directory)
-    print("Level directory: " + level_directory)
 
     loaded_data = []
+    entity_index_counter = 0
 
     for index, directory in enumerate(directories):
         _, directory_name = os.path.split(directory)
-        print(f"directoryName: {directory_name}")
         full_path_composite = os.path.join(base_path, directory_name, composite_filename)
         full_path_data = os.path.join(level_directory, directory_name, data_filename).replace("\\", "/")
         full_path_collisions = os.path.join(level_directory, directory_name, collisions_filename).replace("\\", "/")
@@ -113,8 +112,6 @@ def importWorld():
         composite_texture = load_texture_asset(full_path_composite)
 
         composite_sprite = create_sprite_from_texture(composite_texture, directory_name)
-
-        print(f"composite sprite: {composite_sprite}")
 
         ## Reading JSON file ##
 
@@ -128,7 +125,12 @@ def importWorld():
 
         spawned_composite_actor = spawn_sprite_in_world(composite_sprite, (composite_spawn_coords), sprite_scale)
 
-        print(f"Spawned this actor: {spawned_composite_actor}")
+        ## Spawning Entities ##
+      
+        for _, entities in data['entities'].items():
+            for index, entity in enumerate(entities):
+                spawn_entity_in_world(f"LDtk_{entity['id']}_{entity_index_counter}", data['x'] + entity['x'], data['y'] + entity['y'])
+                entity_index_counter += 1
 
         ## Spawning Collisions ##
         
@@ -142,11 +144,19 @@ def check_and_delete_existing_sprite(sprite_name):
     for actor in all_actors:
         if actor.get_actor_label() == sprite_name:
             unreal.EditorLevelLibrary.destroy_actor(actor)
+            print(f"Deleting existing composite sprite: {actor}")
             break
 
     if unreal.EditorAssetLibrary.does_asset_exist(sprite_path):
         unreal.EditorAssetLibrary.delete_asset(sprite_path)
-    
+
+def check_and_delete_existing_entity(entity_name):
+    all_actors = unreal.EditorLevelLibrary.get_all_level_actors()
+    for actor in all_actors:
+        if actor.get_actor_label() == entity_name:
+            unreal.EditorLevelLibrary.destroy_actor(actor)
+            print(f"Deleting existing entity: {actor}")
+            break
 
 def load_texture_asset(texture_path):
     texture = unreal.EditorAssetLibrary.load_asset(texture_path)
@@ -167,6 +177,19 @@ def create_sprite_from_texture(texture_asset: unreal.PaperSprite, world_name):
         return sprite_package
     except:
         pass
+
+def spawn_entity_in_world(name, x, y):
+    location = unreal.Vector(x, y, 1)
+
+    check_and_delete_existing_entity(name)
+
+    actor: unreal.Actor = unreal.EditorLevelLibrary.spawn_actor_from_class(unreal.Actor().get_class(), location)
+
+    if actor:
+        actor.set_actor_label(name)
+        print(f"Spawning entity: {actor.get_actor_label()}")
+
+    return actor
          
 def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=(1, 1, 1)):
 
@@ -174,7 +197,7 @@ def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=(1, 1, 1)):
     
     scale_vector = unreal.Vector(scale[0], scale[1], scale[2])
 
-    actor_transform = unreal.Transform(spawn_location, unreal.Rotator(0, 0, 0), scale_vector)
+    actor_transform = unreal.Transform(spawn_location, unreal.Rotator(270, 0, 0), scale_vector)
     
     actor = unreal.EditorLevelLibrary.spawn_actor_from_object(sprite, spawn_location)
     if actor:
@@ -187,6 +210,8 @@ def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=(1, 1, 1)):
             
             actor.set_actor_transform(actor_transform, False, True)
             
+            print(f"Spawning composite sprite: {actor.get_actor_label()}")
+
             return actor
     return None
 
