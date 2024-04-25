@@ -16,15 +16,12 @@ def load_csv(file_path):
     with open(file_path, 'r') as file:
         reader = csv.reader(file)
         for row in reader:
-            # Process each row and handle empty cells
             grid_row = []
             for cell in row:
-                # Convert the cell to an integer if it's not empty
                 if cell.strip() == '':
-                    grid_row.append(0)  # Use a default value for empty cells
+                    grid_row.append(0)
                 else:
                     grid_row.append(int(cell))
-            # Append the processed row to the grid
             grid.append(grid_row)
     return grid
 
@@ -35,13 +32,14 @@ def create_collision(actor: unreal.PaperSpriteActor, x, y, tile_size):
     root_data_handle = subsystem.k2_gather_subobject_data_for_instance(actor)[0]
     
     collision_component = unreal.BoxComponent()
-    sub_handle, fail_reason = subsystem.add_new_subobject(params=unreal.AddNewSubobjectParams(parent_handle=root_data_handle, new_class=collision_component.get_class()))
+    sub_handle, _ = subsystem.add_new_subobject(params=unreal.AddNewSubobjectParams(parent_handle=root_data_handle, new_class=collision_component.get_class()))
     subsystem.rename_subobject(handle=sub_handle, new_name=unreal.Text(f"LDTK_Collision_{uuid.uuid4()}"))
 
     new_component: unreal.BoxComponent = actor.root_component.get_child_component(initial_children_count)
 
-    new_component.set_box_extent(unreal.Vector(tile_size / 2, tile_size / 2, 0))
-    new_component.set_relative_location_and_rotation(unreal.Vector((x + (tile_size / 2)), 10, -(y + (tile_size / 2))), unreal.Rotator(90, 0, 0),False, False)
+    new_component.set_box_extent(unreal.Vector(tile_size / 2, tile_size / 2, 64))
+    new_component.set_relative_location_and_rotation(unreal.Vector((x + (tile_size / 2)), -32, -(y + (tile_size / 2))), unreal.Rotator(90, 0, 0),False, False)
+    new_component.set_collision_profile_name("BlockAll")
     
 def spawn_collisions_from_grid(grid, actor: unreal.PaperSpriteActor, composite_width, composite_height):
     tile_size = 16
@@ -62,19 +60,13 @@ def find_all_subfolders(path):
     
     return subfolders
 
-
 DirectoryContents = Dict[str, Dict[str, Any]]
 
 def get_directory_contents(path: str) -> dict:
-    """
-    Returns a nested dictionary where each key is a directory path, and the value is a dictionary
-    containing the names of the files in that directory as keys, with empty values.
-    """
     directory_contents = {}
 
-    for root, dirs, files in os.walk(path):
+    for root, _, files in os.walk(path):
         root = os.path.normpath(root)
-        
         filtered_files = [file for file in files if file.endswith(('_bg.png', '_composite.png', 'Bg_textures.png', 'Collisions.csv', 'Collisions.png', 'Collisions-int.png', 'data.json', 'Wall_shadows.png'))]
 
         if filtered_files:
@@ -83,22 +75,19 @@ def get_directory_contents(path: str) -> dict:
     return directory_contents
 
 def importWorld():
-    content_directory = unreal.Paths.project_content_dir()
     level_files_location = "LdtkFiles/simplified"
-    level_directory = os.path.join(content_directory, level_files_location)
-
     base_directory = "/Game"
     ldtk_files_directory = "LdtkFiles"
     ldtk_simplified_directory = "simplified"
-    base_path = os.path.join(base_directory, ldtk_files_directory, ldtk_simplified_directory)
-
     composite_filename = "_composite"
     data_filename = "data.json"
     collisions_filename = "Collisions.csv"
 
+    base_path = os.path.join(base_directory, ldtk_files_directory, ldtk_simplified_directory)
+    content_directory = unreal.Paths.project_content_dir()
+    level_directory = os.path.join(content_directory, level_files_location)
     directories = find_all_subfolders(level_directory)
 
-    loaded_data = []
     entity_index_counter = 0
 
     for index, directory in enumerate(directories):
@@ -106,36 +95,44 @@ def importWorld():
         full_path_composite = os.path.join(base_path, directory_name, composite_filename)
         full_path_data = os.path.join(level_directory, directory_name, data_filename).replace("\\", "/")
         full_path_collisions = os.path.join(level_directory, directory_name, collisions_filename).replace("\\", "/")
+        
+        composite_exists = unreal.EditorAssetLibrary.does_asset_exist(full_path_composite)
+        data_exists = os.path.exists(full_path_data)
+        collisions_exists = os.path.exists(full_path_collisions)
 
         ## Creating Sprite ##
+        if composite_exists:
+            composite_texture = load_texture_asset(full_path_composite)
 
-        composite_texture = load_texture_asset(full_path_composite)
-
-        composite_sprite = create_sprite_from_texture(composite_texture, directory_name)
+            composite_sprite = create_sprite_from_texture(composite_texture, directory_name)
+        else:
+            print(f"Unreal LDtk: Missing composite texture asset, skipping...")
 
         ## Reading JSON file ##
+        if data_exists:
+            data_file = open(full_path_data)
+            data = json.load(data_file)
+            data_file.close()
+            composite_spawn_coords = (data['x'] + (data['width'] / 2), data['y'] + (data['height'] / 2), 0)
+        else:
+            print(f"Unreal LDtk: Missing data.json file, skipping...")
 
-        data_file = open(full_path_data)
-        data = json.load(data_file)
-        composite_spawn_coords = (data['x'] + (data['width'] / 2), data['y'] + (data['height'] / 2), 0)
-
-        loaded_data.append(data)
-
-        sprite_scale = (1, 1, 1)
-
-        spawned_composite_actor = spawn_sprite_in_world(composite_sprite, (composite_spawn_coords), sprite_scale)
-
-        ## Spawning Entities ##
-      
-        for _, entities in data['entities'].items():
-            for index, entity in enumerate(entities):
-                spawn_entity_in_world(f"LDtk_{entity['id']}_{entity_index_counter}", data['x'] + entity['x'], data['y'] + entity['y'])
-                entity_index_counter += 1
+        if (composite_exists and data_exists):
+            spawned_composite_actor = spawn_sprite_in_world(composite_sprite, (composite_spawn_coords))
+            ## Spawning Entities ##
+            for _, entities in data['entities'].items():
+                for index, entity in enumerate(entities):
+                    spawn_entity_in_world(f"LDtk_{entity['id']}_{entity_index_counter}", data['x'] + entity['x'], data['y'] + entity['y'])
+                    entity_index_counter += 1
+        else:
+            print(f"Unreal LDtk: Missing composite and/or data.json file, skipping entities...")
 
         ## Spawning Collisions ##
-        
-        grid = load_csv(full_path_collisions)
-        spawn_collisions_from_grid(grid, spawned_composite_actor, data['width'], data['height'])
+        if composite_exists and collisions_exists:
+            grid = load_csv(full_path_collisions)
+            spawn_collisions_from_grid(grid, spawned_composite_actor, data['width'], data['height'])
+        else: 
+            print(f"Unreal LDtk: Missing Composite and/or Collisions.csv file, skipping collisions...")
 
 def check_and_delete_existing_sprite(sprite_name):
     sprite_path = "/Game/LdtkFiles/" + sprite_name
@@ -179,7 +176,7 @@ def create_sprite_from_texture(texture_asset: unreal.PaperSprite, world_name):
         pass
 
 def spawn_entity_in_world(name, x, y):
-    location = unreal.Vector(x, y, 1)
+    location = unreal.Vector(x, 1, -y)
 
     check_and_delete_existing_entity(name)
 
@@ -193,11 +190,11 @@ def spawn_entity_in_world(name, x, y):
          
 def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=(1, 1, 1)):
 
-    spawn_location = unreal.Vector(location[0], location[1], location[2])
+    spawn_location = unreal.Vector(location[0], location[2], -location[1])
     
     scale_vector = unreal.Vector(scale[0], scale[1], scale[2])
 
-    actor_transform = unreal.Transform(spawn_location, unreal.Rotator(270, 0, 0), scale_vector)
+    actor_transform = unreal.Transform(spawn_location, unreal.Rotator(0, 0, 0), scale_vector)
     
     actor = unreal.EditorLevelLibrary.spawn_actor_from_object(sprite, spawn_location)
     if actor:
