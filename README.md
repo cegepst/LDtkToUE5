@@ -76,6 +76,12 @@ The following steps account for the required workaround :
 
 The level will now correctly export
 
+### File nomenclature
+The exported files shall be named correctly for the tool to work. If they do not match exactly what is specified here, the tool **WILL NOT WORK !**
+- The intgrid containing the collision data: **Collisions.csv**
+- The JSON file containing the level's overall data: **data.json**
+- The composite of all of the layers: **_composite.png**
+
 ## Importing your exported LDtk level 
 
 1. Open the UE5 editor
@@ -182,6 +188,12 @@ Les étapes ci-dessous prennent en compte notre solution temporaire :
 9. Cliquez sur `Save Project`
 
 Le niveau va dorénavant être correctement exporté.
+
+### Nomenclature des fichiers
+Les fichiers exportées doivent être correctement nommés pour que l'outil fonctionne correctement. S'ils ne le sont pas, l'outil **NE FONCTIONNERA PAS**
+- Le fichier contenant le *intgrid* pour les collisions: **Collisions.csv**
+- Le fichier *JSON* contenant les données générales reliés au niveau: **data.json**
+- Le fichier *composite* contenant toutes les couches en une seule image: **_composite.png**
 
 ## L'importation de votre niveau LDtk
 
