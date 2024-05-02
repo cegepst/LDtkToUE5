@@ -11,7 +11,11 @@
 
 ### Description
 
-TODO: Add project description...
+*LDtkToUE5* is a plugin that thrives to bring functionnalities similar to plugins for other game engines, such as LDtkToUnity, to Unreal Engine 5. 
+
+Following the drama related to Unity introducing fees per downloads to games developers made, many made the jump to other popular game engines, such as Godot and Unreal Engine 5. Godot already having an integration for LDtk, it was in our interest to make one for UE5
+
+Its primary functionnality is the dynamic importation of 2D levels exported from the LDtk software, using JSON and PNG files.
 
 ### Setup and Usage guide
 
@@ -116,7 +120,12 @@ LdtkFiles
 
 ### Description
 
-TODO: Add project description...
+*LDtkToUE5* est un *plugin* qui cherche à amener les fonctionnalités d’un *plugin* tel que *LDtkToUnity* au moteur de jeu Unreal Engine 5. 
+
+À la suite de la polémique que la direction de *Unity* eu créé en essayant d’introduire des frais par téléchargements pour les développeurs, plusieurs furent le saut vers d’autres moteurs de jeux, tel que *Godot* et *Unreal Engine 5*. 
+*Godot* ayant déjà une implémentation, il était de notre intérêt de l’intégrer à *UE5* aussi.
+
+Sa principale fonctionnalité est l’importation dynamique de niveaux 2D créés à partir du logiciel *LDtk*, par fichier *JSON* et *PNG*.
 
 ### Guide d'installation et d'utilisation
 
