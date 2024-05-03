@@ -1,4 +1,4 @@
-## LDtkToUE5
+# LDtkToUE5
 
 | Language | Documentation |
 |----------|---------------|
@@ -10,9 +10,9 @@
 
 
 
-## Documentation (EN)
+# Documentation (EN)
 
-### Description
+## Description
 
 *LDtkToUE5* is a plugin that thrives to bring functionnalities similar to plugins for other game engines, such as LDtkToUnity, to Unreal Engine 5. 
 
@@ -20,14 +20,14 @@ Following the drama related to Unity introducing fees per downloads to games dev
 
 Its primary functionnality is the dynamic importation of 2D levels exported from the LDtk software, using JSON and PNG files.
 
-### Setup and Usage guide
+## Setup and Usage guide
 
-#### Dependencies
+### Dependencies
 
 - Python (included within UE5)
 - Unreal Python API (Already installed)
 
-#### Creating project and enabling Python editor scripting
+### Creating project and enabling Python editor scripting
 
 1. Create a new UE5 project, using the *blank template*
 2. Navigate to `Edit > Plugins` ![Capture d’écran 2024-04-12 094112](https://github.com/cegepst/unreal-ldtk/assets/112954452/0a45893a-357c-417c-a233-a1bde611279d)
@@ -43,7 +43,7 @@ Its primary functionnality is the dynamic importation of 2D levels exported from
 
 6. Restart UE5
 
-#### Add the importer to your project
+### Add the importer to your project
 
 1. Locate the newly created Python folder inside of the editor's Content Browser
 2. Create an empty folder inside of it
@@ -125,9 +125,9 @@ LdtkFiles
 
 
 
-## Documentation (FR)
+# Documentation (FR)
 
-### Description
+## Description
 
 *LDtkToUE5* est un *plugin* qui cherche à amener les fonctionnalités d’un *plugin* tel que *LDtkToUnity* au moteur de jeu Unreal Engine 5. 
 
@@ -136,14 +136,14 @@ LdtkFiles
 
 Sa principale fonctionnalité est l’importation dynamique de niveaux 2D créés à partir du logiciel *LDtk*, par fichier *JSON* et *PNG*.
 
-### Guide d'installation et d'utilisation
+## Guide d'installation et d'utilisation
 
-#### Dépendances
+### Dépendances
 
 - Python (inclus avec UE5)
 - Unreal Python API (Préinstallé)
 
-#### Création du projet et activation de Python Editor Scripting
+### Création du projet et activation de Python Editor Scripting
 
 1. Il faut premièrement créer un nouveau projet, en utilisant le *template Blank*
 2. Naviguer vers `Edit > Plugins` ![Capture d’écran 2024-04-12 094112](https://github.com/cegepst/unreal-ldtk/assets/112954452/0a45893a-357c-417c-a233-a1bde611279d)
@@ -156,7 +156,7 @@ Sa principale fonctionnalité est l’importation dynamique de niveaux 2D créé
        ![Capture d’écran 2024-04-12 094607](https://github.com/cegepst/unreal-ldtk/assets/112954452/10454be7-3660-4c01-916d-5e614f0f7155)
 6. Redémarrer UE5
 
-#### Ajouter l'importeur à votre projet
+### Ajouter l'outil d'importation à votre projet
 
 1. Trouvez le dossier nouvellement créé, nommé Python, dans le *Content Browser* de l'éditeur
 2. Créez un dossier vide à l'intérieur
