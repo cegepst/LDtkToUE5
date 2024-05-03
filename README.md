@@ -9,8 +9,16 @@
 ![LdtkToUE5-logo](https://github.com/cegepst/unreal-ldtk/assets/112954452/baf1a5d9-e663-48bb-95ae-830f5ee801e1)
 
 
-
 # Documentation (EN)
+
+   - [Description](#description)
+   - [Setup and Usage guide](#setup-and-usage-guide)
+     - [Dependencies](#dependencies)
+     - [Creating project and enabling Python editor scripting](#creating-project-and-enabling-python-editor-scripting)
+     - [Add the importer to your project](#add-the-importer-to-your-project)
+   - [Exporting your LDtk level correctly](#exporting-your-ldtk-level-correctly)
+     - [File nomenclature](#file-nomenclature)
+   - [Importing your exported LDtk level](#importing-your-exported-ldtk-level)
 
 ## Description
 
@@ -128,6 +136,15 @@ LdtkFiles
 # Documentation (FR)
 
 ## Description
+
+- [Description](#description-1)
+   - [Guide d'installation et d'utilisation](#guide-dinstallation-et-dutilisation)
+     - [Dépendances](#dépendances)
+     - [Création du projet et activation de Python Editor Scripting](#création-du-projet-et-activation-de-python-editor-scripting)
+     - [Ajouter l'outil d'importation à votre projet](#ajouter-loutil-dimportation-à-votre-projet)
+   - [L'exportation de votre niveau LDtk](#lexportation-de-votre-niveau-ldtk)
+     - [Nomenclature des fichiers](#nomenclature-des-fichiers)
+   - [L'importation de votre niveau LDtk](#limportation-de-votre-niveau-ldtk)
 
 *LDtkToUE5* est un *plugin* qui cherche à amener les fonctionnalités d’un *plugin* tel que *LDtkToUnity* au moteur de jeu Unreal Engine 5. 
 
