@@ -39,11 +39,9 @@ Its primary functionnality is the dynamic importation of 2D levels exported from
 
 1. Create a new UE5 project, using the *blank template*
 2. Navigate to `Edit > Plugins` ![Capture d’écran 2024-04-12 094112](https://github.com/cegepst/unreal-ldtk/assets/112954452/0a45893a-357c-417c-a233-a1bde611279d)
-
-  - On MacOS, click on *UnrealEditor* in the top bar, and then on *Preferences*
-
 3. Make sure *Python Editor Scripting* is enabled
-4. Navigate to `Edit > Editor Preferences > Python`
+4. Navigate to `Edit > Editor Preferences > Python` 
+    - On MacOS, click on *UnrealEditor* in the top bar, and then on *Preferences*
 5. Enable the following: 
 
     - *Dev Mode*
@@ -173,11 +171,9 @@ Sa principale fonctionnalité est l’importation dynamique de niveaux 2D créé
 
 1. Il faut premièrement créer un nouveau projet, en utilisant le *template Blank*
 2. Naviguer vers `Edit > Plugins` ![Capture d’écran 2024-04-12 094112](https://github.com/cegepst/unreal-ldtk/assets/112954452/0a45893a-357c-417c-a233-a1bde611279d)
-
-  - Sur MacOS, cliquer sur *UnrealEditor* dans la barre du haut, et puis sur *Preferences*
-
 3. Assurez-vous que *Python Editor Scripting* est activé
-4. Naviguer vers `Edit > Editor Preferences > Python`
+4. Naviguer vers `Edit > Editor Preferences > Python` 
+    - Sur MacOS, cliquer sur *UnrealEditor* dans la barre du haut, et puis sur *Preferences*
 5. Activer les options ci-dessous: 
     - Dev Mode
     - Content Browser Integration
