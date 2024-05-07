@@ -9,8 +9,6 @@ import uuid
 from enum import Enum
 from typing import Any, List, Optional, Dict, TypeVar, Type, Callable, cast
 
-from PIL import Image
-
 def load_csv(file_path):
     grid = []
     with open(file_path, 'r') as file:
@@ -87,6 +85,12 @@ def importWorld():
     content_directory = unreal.Paths.project_content_dir()
     level_directory = os.path.join(content_directory, level_files_location)
     directories = find_all_subfolders(level_directory)
+
+    if directories.__len__() > 0:
+        print(f"Unreal LDtk: Found {len(directories)} directories in {level_directory}. Beginning import...")
+    else:
+        print(f"Unreal LDtk: No directories found in {level_directory}. This might be because you are missing the LdtkFiles directory. Exiting...")
+        return
 
     entity_index_counter = 0
 

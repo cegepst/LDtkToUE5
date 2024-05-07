@@ -40,6 +40,8 @@ Its primary functionnality is the dynamic importation of 2D levels exported from
 1. Create a new UE5 project, using the *blank template*
 2. Navigate to `Edit > Plugins` ![Capture d’écran 2024-04-12 094112](https://github.com/cegepst/unreal-ldtk/assets/112954452/0a45893a-357c-417c-a233-a1bde611279d)
 
+  - On MacOS, click on *UnrealEditor* in the top bar, and then on *Preferences*
+
 3. Make sure *Python Editor Scripting* is enabled
 4. Navigate to `Edit > Editor Preferences > Python`
 5. Enable the following: 
@@ -84,11 +86,16 @@ The following steps account for the required workaround :
 
 The level will now correctly export
 
-### File nomenclature
+### File nomenclature and specific LDtk settings
 The exported files shall be named correctly for the tool to work. If they do not match exactly what is specified here, the tool **WILL NOT WORK !**
 - The intgrid containing the collision data: **Collisions.csv**
 - The JSON file containing the level's overall data: **data.json**
 - The composite of all of the layers: **_composite.png**
+
+Your LDtk project settings should match these. Otherwise, the importer might not work as expected: 
+- Workspace settings
+  - Default layer grid = 16 px
+  - Default entity size = 16 x 16 px
 
 ## Importing your exported LDtk level 
 
@@ -115,6 +122,8 @@ LdtkFiles
 11. Access the `LdtkFiles` folder inside of your operating system's file browser
 12. Access the original `simplified` folder from your exported level, which you kept open earlier.
 13. Copy and Paste it into the UE5 project's `LdtkFiles` folder.
+
+    - **MacOS - IMPORTANT** Unfortunately, each original files need to be added manually to each of `simplified`'s subfolders, because otherwise, the previously imported `.uasset` files will be removed from the project.
 
     - **This copies over all the original files that are required for calculations by our Python script.** If not done, the script will return errors because it could not find the required files, like for example `data.json`, `Collisions.csv`, etc.
 
@@ -164,6 +173,9 @@ Sa principale fonctionnalité est l’importation dynamique de niveaux 2D créé
 
 1. Il faut premièrement créer un nouveau projet, en utilisant le *template Blank*
 2. Naviguer vers `Edit > Plugins` ![Capture d’écran 2024-04-12 094112](https://github.com/cegepst/unreal-ldtk/assets/112954452/0a45893a-357c-417c-a233-a1bde611279d)
+
+  - Sur MacOS, cliquer sur *UnrealEditor* dans la barre du haut, et puis sur *Preferences*
+
 3. Assurez-vous que *Python Editor Scripting* est activé
 4. Naviguer vers `Edit > Editor Preferences > Python`
 5. Activer les options ci-dessous: 
@@ -206,11 +218,16 @@ Les étapes ci-dessous prennent en compte notre solution temporaire :
 
 Le niveau va dorénavant être correctement exporté.
 
-### Nomenclature des fichiers
+### Nomenclature des fichiers et paramètres spécifique pour LDtk
 Les fichiers exportées doivent être correctement nommés pour que l'outil fonctionne correctement. S'ils ne le sont pas, l'outil **NE FONCTIONNERA PAS**
 - Le fichier contenant le *intgrid* pour les collisions: **Collisions.csv**
 - Le fichier *JSON* contenant les données générales reliés au niveau: **data.json**
 - Le fichier *composite* contenant toutes les couches en une seule image: **_composite.png**
+
+Vos paramètres de projets pour LDtk doivent suivre ceux-ci. Sinon, l'outil d'importation pourrait ne pas fonctionner convenablement: 
+- *Workspace settings*
+  - *Default layer grid* = 16 px
+  - *Default entity size* = 16 x 16 px
 
 ## L'importation de votre niveau LDtk
 
@@ -236,6 +253,8 @@ LdtkFiles
 11. Accédez au dossier `LdtkFiles` à l'intérieur de l'explorateur de fichier de votre système d'exploitation
 12. Accédez au dossier `simplified` original, provenant de votre niveau exporté, que vous avez gardez ouvert plus tôt
 13. Copiez et collez le à l'intérieur de dossier `LdtkFiles` du projet
+
+    - **MacOS - IMPORTANT** Il est malheureusement nécessaire d'ajouter manuellement les fichiers originaux dans chaque sous-dossiers de `simplified`, car sinon, les fichiers `.uasset` précédement importés d'Unreal Engine seront écrasés.
 
     - **Cela copie l'entièreté des fichiers originaux qui sont requis pour les calculs de notre script Python.** Si cette étape n'est pas suivie, notre script retournera une erreur, car il ne pourra pas trouver certain fichiers requis, comme par exemple `data.json`, `Collisions.csv`, etc.
 
