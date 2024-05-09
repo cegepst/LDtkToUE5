@@ -122,7 +122,7 @@ LdtkFiles
 12. Access the original `simplified` folder from your exported level, which you kept open earlier.
 13. Copy and Paste it into the UE5 project's `LdtkFiles` folder.
 
-    - **MacOS - IMPORTANT** Unfortunately, each original files need to be added manually to each of `simplified`'s subfolders, because otherwise, the previously imported `.uasset` files will be removed from the project.
+    - **MacOS - IMPORTANT** Hold down the option key while adding the folder to the project files. This will give you the option to merge both folders, as to not delete the previously imported `.uasset` files.
 
     - **This copies over all the original files that are required for calculations by our Python script.** If not done, the script will return errors because it could not find the required files, like for example `data.json`, `Collisions.csv`, etc.
 
@@ -252,7 +252,7 @@ LdtkFiles
 12. Accédez au dossier `simplified` original, provenant de votre niveau exporté, que vous avez gardez ouvert plus tôt
 13. Copiez et collez le à l'intérieur de dossier `LdtkFiles` du projet
 
-    - **MacOS - IMPORTANT** Il est malheureusement nécessaire d'ajouter manuellement les fichiers originaux dans chaque sous-dossiers de `simplified`, car sinon, les fichiers `.uasset` précédement importés d'Unreal Engine seront écrasés.
+    - **MacOS - IMPORTANT** Maintenez la touche Option lorsque vous ajouter le dossier dans le projet. Cela va vous donner l'option de fusionner les dossiers, au lieu de remplacer les fichiers `.uasset` précédemment importés.
 
     - **Cela copie l'entièreté des fichiers originaux qui sont requis pour les calculs de notre script Python.** Si cette étape n'est pas suivie, notre script retournera une erreur, car il ne pourra pas trouver certain fichiers requis, comme par exemple `data.json`, `Collisions.csv`, etc.
 
