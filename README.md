@@ -12,6 +12,7 @@
 # Documentation (EN)
 
    - [Description](#description)
+   - [Video tutorial](#video-tutorial)
    - [Setup and Usage guide](#setup-and-usage-guide)
      - [Dependencies](#dependencies)
      - [Creating project and enabling Python editor scripting](#creating-project-and-enabling-python-editor-scripting)
@@ -27,6 +28,9 @@
 Following the drama related to Unity introducing fees per downloads to games developers made, many made the jump to other popular game engines, such as Godot and Unreal Engine 5. Godot already having an integration for LDtk, it was in our interest to make one for UE5
 
 Its primary functionnality is the dynamic importation of 2D levels exported from the LDtk software, using JSON and PNG files.
+
+# Video tutorial
+While we still recommend to read the complete documentation, here is a video tutorial to help illustrate the steps for using this tool: [Tutorial](https://www.youtube.com/watch?v=fVNpgvaT0aI)
 
 ## Setup and Usage guide
 
@@ -64,6 +68,7 @@ Its primary functionnality is the dynamic importation of 2D levels exported from
 7. Open the extracted files, and access the directory in which the python scripts and the widgets are contained (The files inside `unreal-ldtk-main`)
 8. Drag and drop the extracted files (not the main folder, but the files within) into the Python folder
 9. Restart UE5
+10. When reopened, click *import* on the pop-up at the bottom right of the screen
 
 ## Exporting your LDtk level correctly
 
@@ -119,13 +124,12 @@ LdtkFiles
 10. When done, close UE5, and select `Save Selected`
 11. Access the `LdtkFiles` folder inside of your operating system's file browser
 12. Access the original `simplified` folder from your exported level, which you kept open earlier.
-13. Copy and Paste it into the UE5 project's `LdtkFiles` folder.
+13. Add the folder to the UE5 project's `LdtkFiles` folder.
 
-    - **MacOS - IMPORTANT** Unfortunately, each original files need to be added manually to each of `simplified`'s subfolders, because otherwise, the previously imported `.uasset` files will be removed from the project.
+    - **MacOS - IMPORTANT** Hold down the option key while dragging it into the project's folder. This will give you the option to merge both folders, as to not delete the previously imported `.uasset` files.
+    - **Windows - IMPORTANT**, On Windows, you can also drag and drop the folder, but you will likely lose the original files from the export inside of the original directory, because they will be transferred over to the UE5 project.
 
     - **This copies over all the original files that are required for calculations by our Python script.** If not done, the script will return errors because it could not find the required files, like for example `data.json`, `Collisions.csv`, etc.
-
-    - You can also drag and drop the files, but you will likely lose the original files from the export inside of the original directory, because they will be transferred over to the UE5 project.
 
 14. Reopen UE5
 15. Click `Don't import` on the prompt at the bottom left of the screen when the editor opens
@@ -142,16 +146,17 @@ LdtkFiles
 
 # Documentation (FR)
 
-## Description
-
 - [Description](#description-1)
-   - [Guide d'installation et d'utilisation](#guide-dinstallation-et-dutilisation)
-     - [Dépendances](#dépendances)
-     - [Création du projet et activation de Python Editor Scripting](#création-du-projet-et-activation-de-python-editor-scripting)
-     - [Ajouter l'outil d'importation à votre projet](#ajouter-loutil-dimportation-à-votre-projet)
-   - [L'exportation de votre niveau LDtk](#lexportation-de-votre-niveau-ldtk)
-     - [Nomenclature des fichiers](#nomenclature-des-fichiers)
-   - [L'importation de votre niveau LDtk](#limportation-de-votre-niveau-ldtk)
+- [Tutoriel vidéo](tutorial-video)
+- [Guide d'installation et d'utilisation](#guide-dinstallation-et-dutilisation)
+  - [Dépendances](#dépendances)
+  - [Création du projet et activation de Python Editor Scripting](#création-du-projet-et-activation-de-python-editor-scripting)
+  - [Ajouter l'outil d'importation à votre projet](#ajouter-loutil-dimportation-à-votre-projet)
+- [L'exportation de votre niveau LDtk](#lexportation-de-votre-niveau-ldtk)
+  - [Nomenclature des fichiers](#nomenclature-des-fichiers)
+- [L'importation de votre niveau LDtk](#limportation-de-votre-niveau-ldtk)
+
+## Description
 
 *LDtkToUE5* est un *plugin* qui cherche à amener les fonctionnalités d’un *plugin* tel que *LDtkToUnity* au moteur de jeu Unreal Engine 5. 
 
@@ -159,6 +164,9 @@ LdtkFiles
 *Godot* ayant déjà une implémentation, il était de notre intérêt de l’intégrer à *UE5* aussi.
 
 Sa principale fonctionnalité est l’importation dynamique de niveaux 2D créés à partir du logiciel *LDtk*, par fichier *JSON* et *PNG*.
+
+# Tutoriel vidéo
+Malgré que nous recommendons fortement de lire la documentation en son entièreté, voici une vidéo pour aider à illustrer les étapes d'utilisation de l'outil: [Tutoriel](https://www.youtube.com/watch?v=fVNpgvaT0aI)
 
 ## Guide d'installation et d'utilisation
 
@@ -194,6 +202,7 @@ Sa principale fonctionnalité est l’importation dynamique de niveaux 2D créé
 7. Ouvrez les fichiers extraits, et accédez au dossier dans lequel le script Python et le widget sont entreposés. (Les fichiers dans `unreal-ldtk-main`)
 8. Prenez et déposez les fichiers extraits (pas le dossier principal, mais les fichiers à l'intérieur) dans le dossier Python
 9. Redémarrez UE5
+10. Lorsque réouvert, cliquez sur *import* sur le *pop-up* en bas à gauche de l'écran
 
 ## L'exportation de votre niveau LDtk
 
@@ -248,13 +257,12 @@ LdtkFiles
 10. Lorsque fini, fermez UE5, et sélectionnez `Save Selected`
 11. Accédez au dossier `LdtkFiles` à l'intérieur de l'explorateur de fichier de votre système d'exploitation
 12. Accédez au dossier `simplified` original, provenant de votre niveau exporté, que vous avez gardez ouvert plus tôt
-13. Copiez et collez le à l'intérieur de dossier `LdtkFiles` du projet
+13. Ajouter le dossier au dossier `LdtkFiles` du projet
 
-    - **MacOS - IMPORTANT** Il est malheureusement nécessaire d'ajouter manuellement les fichiers originaux dans chaque sous-dossiers de `simplified`, car sinon, les fichiers `.uasset` précédement importés d'Unreal Engine seront écrasés.
+    - **MacOS - IMPORTANT** Maintenez la touche Option et glissez le dossier dans le celui du projet. Cela va vous donner l'option de fusionner les dossiers, au lieu de remplacer les fichiers `.uasset` précédemment importés.
+    - **Windows - IMPORTANT** Sur Windows, vous pouvez aussi prendre et déposer le dossier, mais vous risquez de perdre les fichiers exportés originaux, car ils seront transférés vers le projet UE5.
 
     - **Cela copie l'entièreté des fichiers originaux qui sont requis pour les calculs de notre script Python.** Si cette étape n'est pas suivie, notre script retournera une erreur, car il ne pourra pas trouver certain fichiers requis, comme par exemple `data.json`, `Collisions.csv`, etc.
-
-    - Vous pouvez aussi prendre et déposer les fichiers, mais vous risquez de perdre les fichiers exportés originaux, car ils seront transférés vers le projet UE5.
 
 14. Réouvrez UE5
 15. Cliquez sur `Don't import` lorsque le message apparait au bas à droite de la page de l'éditeur
@@ -262,7 +270,7 @@ LdtkFiles
 17. Faites un clique droit sur le *Editor Utility Widget* nommé `Main_Window`
 18. Cliquez sur `Run Editor Utility Widget` ![Capture d’écran 2024-04-12 100307](https://github.com/cegepst/unreal-ldtk/assets/112954452/59577f77-423b-442a-b2a8-c54ae8ee0b47)
 19. Cliquez sur le bouton jaune `Importer`
-20. Amusez-vous bien avec votre nouveau dans UE5 !
+20. Amusez-vous bien !
 
 
 
