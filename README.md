@@ -118,7 +118,8 @@ LdtkFiles
 
     - Keep it open, you'll need it later
 
-8. Take the `simplified` folder, and drop it inside of UE5's content browser, inside of the `LdtkFiles/{YOUR_LEVEL_FOLDER}` folder ![Capture d’écran 2024-04-12 095954](https://github.com/cegepst/unreal-ldtk/assets/112954452/a9419e8d-bc77-4cbc-bcad-372d3761d671)
+8. Take the `simplified` folder, and drop it inside of UE5's content browser, inside of the `LdtkFiles/{YOUR_LEVEL_FOLDER}` folder ![screenshot-simplified](https://github.com/cegepst/unreal-ldtk/assets/112954452/bc4b8564-20ef-4377-adca-27d5454aa809)
+
 
 9. A menu will open asking to import. The selected option does not matter, but we recommend selecting `Data table` and `CollisionEvent` for the options, as we know they do not cause any issues
 10. Import all of the prompted imports
@@ -253,7 +254,8 @@ LdtkFiles
 
     - Gardez le ouvert, vous allez en avoir besoin plus tard
 
-8. Prenez le dossier `simplified`, et déposez le dans le *content browser* de UE5, à l'intérieur du dossier `LdtkFiles/{VOTRE_NIVEAU}` ![Capture d’écran 2024-04-12 095954](https://github.com/cegepst/unreal-ldtk/assets/112954452/a9419e8d-bc77-4cbc-bcad-372d3761d671)
+8. Prenez le dossier `simplified`, et déposez le dans le *content browser* de UE5, à l'intérieur du dossier `LdtkFiles/{VOTRE_NIVEAU}` ![screenshot-simplified](https://github.com/cegepst/unreal-ldtk/assets/112954452/08ee77fd-1657-41cf-9ca5-a5e29de13dd6)
+
 9. Un menu va ouvrir vous demandant des options pour l'importation de certains fichiers. Le choix n'importe peu, mais nous recommandons de choisir les options `Data table` et `CollisionEvent`, car nous savons qu'ils fonctionnent sans causer de problèmes
 10. Importez tous les fichiers demandés
 11. Lorsque fini, fermez UE5, et sélectionnez `Save Selected`
