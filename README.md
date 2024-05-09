@@ -64,6 +64,7 @@ Its primary functionnality is the dynamic importation of 2D levels exported from
 7. Open the extracted files, and access the directory in which the python scripts and the widgets are contained (The files inside `unreal-ldtk-main`)
 8. Drag and drop the extracted files (not the main folder, but the files within) into the Python folder
 9. Restart UE5
+10. When reopened, click *import* on the pop-up at the bottom right of the screen
 
 ## Exporting your LDtk level correctly
 
@@ -194,6 +195,7 @@ Sa principale fonctionnalité est l’importation dynamique de niveaux 2D créé
 7. Ouvrez les fichiers extraits, et accédez au dossier dans lequel le script Python et le widget sont entreposés. (Les fichiers dans `unreal-ldtk-main`)
 8. Prenez et déposez les fichiers extraits (pas le dossier principal, mais les fichiers à l'intérieur) dans le dossier Python
 9. Redémarrez UE5
+10. Lorsque réouvert, cliquez sur *import* sur le *pop-up* en bas à gauche de l'écran
 
 ## L'exportation de votre niveau LDtk
 
