@@ -171,10 +171,11 @@ def create_sprite_from_texture(texture_asset: unreal.PaperSprite, world_name):
         check_and_delete_existing_sprite(sprite_name=sprite_name)
 
         sprite_package = unreal.AssetToolsHelpers.get_asset_tools().create_asset(asset_name=sprite_name, package_path=sprite_path, asset_class=unreal.PaperSprite, factory=unreal.PaperSpriteFactory())
-        #unreal.facto
+        
         sprite_package.set_editor_property("source_texture", texture_asset)
 
         print("Sprite saved at: ", sprite_path)
+
         return sprite_package
     except:
         pass
@@ -220,6 +221,4 @@ def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=(1, 1, 1)):
 importWorld()
 
 #noinspection PyUnresolvedReferences
-# print(full_path) ## Value from locals given by unreal python node in the exec function
-# print(project_dir_path)
 print(datetime.datetime.now())
