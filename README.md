@@ -8,6 +8,9 @@
 
 ![LdtkToUE5-logo](https://github.com/cegepst/unreal-ldtk/assets/112954452/baf1a5d9-e663-48bb-95ae-830f5ee801e1)
 
+# Video tutorial
+While we still recommend to read the complete documentation, here is a video tutorial to help illustrate the steps for using this tool: [Tutorial](https://www.youtube.com/watch?v=fVNpgvaT0aI)
+
 
 # Documentation (EN)
 
