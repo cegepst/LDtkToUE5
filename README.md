@@ -120,13 +120,12 @@ LdtkFiles
 10. When done, close UE5, and select `Save Selected`
 11. Access the `LdtkFiles` folder inside of your operating system's file browser
 12. Access the original `simplified` folder from your exported level, which you kept open earlier.
-13. Copy and Paste it into the UE5 project's `LdtkFiles` folder.
+13. Add the folder to the UE5 project's `LdtkFiles` folder.
 
-    - **MacOS - IMPORTANT** Hold down the option key while adding the folder to the project files. This will give you the option to merge both folders, as to not delete the previously imported `.uasset` files.
+    - **MacOS - IMPORTANT** Hold down the option key while dragging it into the project's folder. This will give you the option to merge both folders, as to not delete the previously imported `.uasset` files.
+    - **Windows - IMPORTANT**, On Windows, you can also drag and drop the folder, but you will likely lose the original files from the export inside of the original directory, because they will be transferred over to the UE5 project.
 
     - **This copies over all the original files that are required for calculations by our Python script.** If not done, the script will return errors because it could not find the required files, like for example `data.json`, `Collisions.csv`, etc.
-
-    - You can also drag and drop the files, but you will likely lose the original files from the export inside of the original directory, because they will be transferred over to the UE5 project.
 
 14. Reopen UE5
 15. Click `Don't import` on the prompt at the bottom left of the screen when the editor opens
@@ -250,13 +249,12 @@ LdtkFiles
 10. Lorsque fini, fermez UE5, et sélectionnez `Save Selected`
 11. Accédez au dossier `LdtkFiles` à l'intérieur de l'explorateur de fichier de votre système d'exploitation
 12. Accédez au dossier `simplified` original, provenant de votre niveau exporté, que vous avez gardez ouvert plus tôt
-13. Copiez et collez le à l'intérieur de dossier `LdtkFiles` du projet
+13. Ajouter le dossier au dossier `LdtkFiles` du projet
 
-    - **MacOS - IMPORTANT** Maintenez la touche Option lorsque vous ajouter le dossier dans le projet. Cela va vous donner l'option de fusionner les dossiers, au lieu de remplacer les fichiers `.uasset` précédemment importés.
+    - **MacOS - IMPORTANT** Maintenez la touche Option et glissez le dossier dans le celui du projet. Cela va vous donner l'option de fusionner les dossiers, au lieu de remplacer les fichiers `.uasset` précédemment importés.
+    - **Windows - IMPORTANT** Sur Windows, vous pouvez aussi prendre et déposer le dossier, mais vous risquez de perdre les fichiers exportés originaux, car ils seront transférés vers le projet UE5.
 
     - **Cela copie l'entièreté des fichiers originaux qui sont requis pour les calculs de notre script Python.** Si cette étape n'est pas suivie, notre script retournera une erreur, car il ne pourra pas trouver certain fichiers requis, comme par exemple `data.json`, `Collisions.csv`, etc.
-
-    - Vous pouvez aussi prendre et déposer les fichiers, mais vous risquez de perdre les fichiers exportés originaux, car ils seront transférés vers le projet UE5.
 
 14. Réouvrez UE5
 15. Cliquez sur `Don't import` lorsque le message apparait au bas à droite de la page de l'éditeur
