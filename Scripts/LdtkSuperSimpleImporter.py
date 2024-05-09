@@ -81,13 +81,15 @@ def importWorld(folder_name: str):
     data_filename = "data.json"
     collisions_filename = "Collisions.csv"
 
-    if folder_name.__len__ == 0:
+    if len(str(folder_name)) == 0:
         print("Unreal LDtk: No folder name provided. Exiting...")
         return
+    else:
+        folder_name = str(folder_name)
 
     base_path = os.path.join(base_directory, ldtk_files_directory, folder_name, ldtk_simplified_directory)
     content_directory = unreal.Paths.project_content_dir()
-    level_directory = os.path.join(content_directory, level_files_location)
+    level_directory = os.path.join(content_directory, ldtk_files_directory, folder_name, ldtk_simplified_directory)
     directories = find_all_subfolders(level_directory)
 
     if directories.__len__() > 0:
