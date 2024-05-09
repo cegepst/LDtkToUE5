@@ -111,7 +111,7 @@ LdtkFiles
 ```
 
 4. Open the newly created `LdtkFiles` folder
-5. Create a folder for your level. (Each new level will need it's own individual folder).
+5. Create a folder for your level (Each new level will need it's own individual folder)
 
 6. Inside of your operating system's file browser, access your exported level
 7. Access the `simplified` folder
