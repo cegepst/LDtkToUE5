@@ -8,13 +8,11 @@
 
 ![LdtkToUE5-logo](https://github.com/cegepst/unreal-ldtk/assets/112954452/baf1a5d9-e663-48bb-95ae-830f5ee801e1)
 
-# Video tutorial
-While we still recommend to read the complete documentation, here is a video tutorial to help illustrate the steps for using this tool: [Tutorial](https://www.youtube.com/watch?v=fVNpgvaT0aI)
-
 
 # Documentation (EN)
 
    - [Description](#description)
+   - [Video tutorial](#video-tutorial)
    - [Setup and Usage guide](#setup-and-usage-guide)
      - [Dependencies](#dependencies)
      - [Creating project and enabling Python editor scripting](#creating-project-and-enabling-python-editor-scripting)
@@ -30,6 +28,9 @@ While we still recommend to read the complete documentation, here is a video tut
 Following the drama related to Unity introducing fees per downloads to games developers made, many made the jump to other popular game engines, such as Godot and Unreal Engine 5. Godot already having an integration for LDtk, it was in our interest to make one for UE5
 
 Its primary functionnality is the dynamic importation of 2D levels exported from the LDtk software, using JSON and PNG files.
+
+# Video tutorial
+While we still recommend to read the complete documentation, here is a video tutorial to help illustrate the steps for using this tool: [Tutorial](https://www.youtube.com/watch?v=fVNpgvaT0aI)
 
 ## Setup and Usage guide
 
@@ -145,16 +146,17 @@ LdtkFiles
 
 # Documentation (FR)
 
-## Description
-
 - [Description](#description-1)
-   - [Guide d'installation et d'utilisation](#guide-dinstallation-et-dutilisation)
-     - [Dépendances](#dépendances)
-     - [Création du projet et activation de Python Editor Scripting](#création-du-projet-et-activation-de-python-editor-scripting)
-     - [Ajouter l'outil d'importation à votre projet](#ajouter-loutil-dimportation-à-votre-projet)
-   - [L'exportation de votre niveau LDtk](#lexportation-de-votre-niveau-ldtk)
-     - [Nomenclature des fichiers](#nomenclature-des-fichiers)
-   - [L'importation de votre niveau LDtk](#limportation-de-votre-niveau-ldtk)
+- [Tutoriel vidéo](tutorial-video)
+- [Guide d'installation et d'utilisation](#guide-dinstallation-et-dutilisation)
+  - [Dépendances](#dépendances)
+  - [Création du projet et activation de Python Editor Scripting](#création-du-projet-et-activation-de-python-editor-scripting)
+  - [Ajouter l'outil d'importation à votre projet](#ajouter-loutil-dimportation-à-votre-projet)
+- [L'exportation de votre niveau LDtk](#lexportation-de-votre-niveau-ldtk)
+  - [Nomenclature des fichiers](#nomenclature-des-fichiers)
+- [L'importation de votre niveau LDtk](#limportation-de-votre-niveau-ldtk)
+
+## Description
 
 *LDtkToUE5* est un *plugin* qui cherche à amener les fonctionnalités d’un *plugin* tel que *LDtkToUnity* au moteur de jeu Unreal Engine 5. 
 
@@ -162,6 +164,9 @@ LdtkFiles
 *Godot* ayant déjà une implémentation, il était de notre intérêt de l’intégrer à *UE5* aussi.
 
 Sa principale fonctionnalité est l’importation dynamique de niveaux 2D créés à partir du logiciel *LDtk*, par fichier *JSON* et *PNG*.
+
+# Tutoriel vidéo
+Malgré que nous recommendons fortement de lire la documentation en son entièreté, voici une vidéo pour aider à illustrer les étapes d'utilisation de l'outil: [Tutoriel](https://www.youtube.com/watch?v=fVNpgvaT0aI)
 
 ## Guide d'installation et d'utilisation
 
