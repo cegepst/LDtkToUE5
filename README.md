@@ -262,7 +262,7 @@ LdtkFiles
 17. Faites un clique droit sur le *Editor Utility Widget* nommé `Main_Window`
 18. Cliquez sur `Run Editor Utility Widget` ![Capture d’écran 2024-04-12 100307](https://github.com/cegepst/unreal-ldtk/assets/112954452/59577f77-423b-442a-b2a8-c54ae8ee0b47)
 19. Cliquez sur le bouton jaune `Importer`
-20. Amusez-vous bien avec votre nouveau dans UE5 !
+20. Amusez-vous bien !
 
 
 
