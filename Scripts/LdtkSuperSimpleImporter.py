@@ -95,7 +95,7 @@ def importWorld(folder_name: str):
     if directories.__len__() > 0:
         print(f"Unreal LDtk: Found {len(directories)} directories in {level_directory}. Beginning import...")
     else:
-        print(f"Unreal LDtk: No directories found in {level_directory}. This might be because you are missing the LdtkFiles directory. Exiting...")
+        print(f"Unreal LDtk: No directories found in {level_directory}. \nThis might be because you are missing the LdtkFiles directory, or that the folder level name is wrong. Exiting...")
         return
 
     entity_index_counter = 0
