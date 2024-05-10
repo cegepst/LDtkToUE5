@@ -18,7 +18,7 @@
      - [Creating project and enabling Python editor scripting](#creating-project-and-enabling-python-editor-scripting)
      - [Add the importer to your project](#add-the-importer-to-your-project)
    - [Exporting your LDtk level correctly](#exporting-your-ldtk-level-correctly)
-     - [File nomenclature](#file-nomenclature)
+     - [File nomenclature and specific LDtk settings](#file-nomenclature-and-specific-ldtk-settings)
    - [Importing your exported LDtk level](#importing-your-exported-ldtk-level)
 
 ## Description
@@ -30,7 +30,7 @@ Following the drama related to Unity introducing fees per downloads to games dev
 Its primary functionnality is the dynamic importation of 2D levels exported from the LDtk software, using JSON and PNG files.
 
 # Video tutorial
-While we still recommend to read the complete documentation, here is a video tutorial to help illustrate the steps for using this tool: [Tutorial](https://www.youtube.com/watch?v=fVNpgvaT0aI)
+While we still recommend to read the complete documentation, here is a video tutorial to help illustrate the steps for using this tool: [Tutorial](https://www.youtube.com/watch?v=y6uYFk01-OM)
 
 ## Setup and Usage guide
 
@@ -111,34 +111,36 @@ LdtkFiles
 ```
 
 4. Open the newly created `LdtkFiles` folder
+5. Create a folder for your level (Each new level will need it's own individual folder)
 
-5. Inside of your operating system's file browser, access your exported level
-6. Access the `simplified` folder
+6. Inside of your operating system's file browser, access your exported level
+7. Access the `simplified` folder
 
     - Keep it open, you'll need it later
 
-7. Take the `simplified` folder, and drop it inside of UE5's content browser, inside of the `LdtkFiles` folder ![Capture d’écran 2024-04-12 095954](https://github.com/cegepst/unreal-ldtk/assets/112954452/a9419e8d-bc77-4cbc-bcad-372d3761d671)
+8. Take the `simplified` folder, and drop it inside of UE5's content browser, inside of the `LdtkFiles/{YOUR_LEVEL_FOLDER}` folder ![screenshot-simplified](https://github.com/cegepst/unreal-ldtk/assets/112954452/bc4b8564-20ef-4377-adca-27d5454aa809)
 
-8. A menu will open asking to import. The selected option does not matter, but we recommend selecting `Data table` and `CollisionEvent` for the options, as we know they do not cause any issues
-9. Import all of the prompted imports
-10. When done, close UE5, and select `Save Selected`
-11. Access the `LdtkFiles` folder inside of your operating system's file browser
-12. Access the original `simplified` folder from your exported level, which you kept open earlier.
-13. Add the folder to the UE5 project's `LdtkFiles` folder.
+
+9. A menu will open asking to import. The selected option does not matter, but we recommend selecting `Data table` and `CollisionEvent` for the options, as we know they do not cause any issues
+10. Import all of the prompted imports
+11. When done, close UE5, and select `Save Selected`
+12. Access the `LdtkFiles` folder inside of your operating system's file browser
+13. Access the original `simplified` folder from your exported level, which you kept open earlier.
+14. Add the folder to the UE5 project's `LdtkFiles/{YOUR_LEVEL_FOLDER}` folder.
 
     - **MacOS - IMPORTANT** Hold down the option key while dragging it into the project's folder. This will give you the option to merge both folders, as to not delete the previously imported `.uasset` files.
     - **Windows - IMPORTANT**, On Windows, you can also drag and drop the folder, but you will likely lose the original files from the export inside of the original directory, because they will be transferred over to the UE5 project.
 
     - **This copies over all the original files that are required for calculations by our Python script.** If not done, the script will return errors because it could not find the required files, like for example `data.json`, `Collisions.csv`, etc.
 
-14. Reopen UE5
-15. Click `Don't import` on the prompt at the bottom left of the screen when the editor opens
-16. Access the `Python` folder inside of the content browser
-17. Right-click on the `Main_Window` Editor Utility Widget
-18. Click on `Run Editor Utility Widget` ![Capture d’écran 2024-04-12 100307](https://github.com/cegepst/unreal-ldtk/assets/112954452/59577f77-423b-442a-b2a8-c54ae8ee0b47)
-
-19. Click on the yellow `Import` button
-20. Enjoy !
+15. Reopen UE5
+16. Click `Don't import` on the prompt at the bottom left of the screen when the editor opens
+17. Access the `Python` folder inside of the content browser
+18. Right-click on the `Main_Window` Editor Utility Widget
+19. Click on `Run Editor Utility Widget` ![Capture d’écran 2024-04-12 100307](https://github.com/cegepst/unreal-ldtk/assets/112954452/59577f77-423b-442a-b2a8-c54ae8ee0b47)
+20. Enter the name of the folder of the level you want to import
+21. Click on the yellow `Import` button
+22. Enjoy !
 
 
 
@@ -153,7 +155,7 @@ LdtkFiles
   - [Création du projet et activation de Python Editor Scripting](#création-du-projet-et-activation-de-python-editor-scripting)
   - [Ajouter l'outil d'importation à votre projet](#ajouter-loutil-dimportation-à-votre-projet)
 - [L'exportation de votre niveau LDtk](#lexportation-de-votre-niveau-ldtk)
-  - [Nomenclature des fichiers](#nomenclature-des-fichiers)
+  - [Nomenclature des fichiers et paramètres spécifique pour LDtk](#nomenclature-des-fichiers-et-paramètres-spécifique-pour-ldtk)
 - [L'importation de votre niveau LDtk](#limportation-de-votre-niveau-ldtk)
 
 ## Description
@@ -166,7 +168,7 @@ LdtkFiles
 Sa principale fonctionnalité est l’importation dynamique de niveaux 2D créés à partir du logiciel *LDtk*, par fichier *JSON* et *PNG*.
 
 # Tutoriel vidéo
-Malgré que nous recommendons fortement de lire la documentation en son entièreté, voici une vidéo pour aider à illustrer les étapes d'utilisation de l'outil: [Tutoriel](https://www.youtube.com/watch?v=fVNpgvaT0aI)
+Malgré que nous recommendons fortement de lire la documentation en son entièreté, voici une vidéo pour aider à illustrer les étapes d'utilisation de l'outil: [Tutoriel](https://www.youtube.com/watch?v=y6uYFk01-OM)
 
 ## Guide d'installation et d'utilisation
 
@@ -245,32 +247,35 @@ LdtkFiles
 ```
 
 4. Ouvrez le dossier nouvellement créé `LdtkFiles`
+5. Créez un dossier pour votre niveau (Chaque nouveau niveau aura besoin d'un dossier séparé)
 
-5. À partir de l'explorateur de fichier de votre système d'exploitation, ouvrez le dossier de votre niveau exporté
-6. Accédez au dossier `simplified`
+6. À partir de l'explorateur de fichier de votre système d'exploitation, ouvrez le dossier de votre niveau exporté
+7. Accédez au dossier `simplified`
 
     - Gardez le ouvert, vous allez en avoir besoin plus tard
 
-7. Prenez le dossier `simplified`, et déposez le dans le *content browser* de UE5, à l'intérieur du dossier `LdtkFiles` ![Capture d’écran 2024-04-12 095954](https://github.com/cegepst/unreal-ldtk/assets/112954452/a9419e8d-bc77-4cbc-bcad-372d3761d671)
-8. Un menu va ouvrir vous demandant des options pour l'importation de certains fichiers. Le choix n'importe peu, mais nous recommandons de choisir les options `Data table` et `CollisionEvent`, car nous savons qu'ils fonctionnent sans causer de problèmes
-9. Importez tous les fichiers demandés
-10. Lorsque fini, fermez UE5, et sélectionnez `Save Selected`
-11. Accédez au dossier `LdtkFiles` à l'intérieur de l'explorateur de fichier de votre système d'exploitation
-12. Accédez au dossier `simplified` original, provenant de votre niveau exporté, que vous avez gardez ouvert plus tôt
-13. Ajouter le dossier au dossier `LdtkFiles` du projet
+8. Prenez le dossier `simplified`, et déposez le dans le *content browser* de UE5, à l'intérieur du dossier `LdtkFiles/{VOTRE_NIVEAU}` ![screenshot-simplified](https://github.com/cegepst/unreal-ldtk/assets/112954452/08ee77fd-1657-41cf-9ca5-a5e29de13dd6)
+
+9. Un menu va ouvrir vous demandant des options pour l'importation de certains fichiers. Le choix n'importe peu, mais nous recommandons de choisir les options `Data table` et `CollisionEvent`, car nous savons qu'ils fonctionnent sans causer de problèmes
+10. Importez tous les fichiers demandés
+11. Lorsque fini, fermez UE5, et sélectionnez `Save Selected`
+12. Accédez au dossier `LdtkFiles` à l'intérieur de l'explorateur de fichier de votre système d'exploitation
+13. Accédez au dossier `simplified` original, provenant de votre niveau exporté, que vous avez gardez ouvert plus tôt
+14. Ajouter le dossier au dossier `LdtkFiles/{VOTRE_NIVEAU}` du projet
 
     - **MacOS - IMPORTANT** Maintenez la touche Option et glissez le dossier dans le celui du projet. Cela va vous donner l'option de fusionner les dossiers, au lieu de remplacer les fichiers `.uasset` précédemment importés.
     - **Windows - IMPORTANT** Sur Windows, vous pouvez aussi prendre et déposer le dossier, mais vous risquez de perdre les fichiers exportés originaux, car ils seront transférés vers le projet UE5.
 
     - **Cela copie l'entièreté des fichiers originaux qui sont requis pour les calculs de notre script Python.** Si cette étape n'est pas suivie, notre script retournera une erreur, car il ne pourra pas trouver certain fichiers requis, comme par exemple `data.json`, `Collisions.csv`, etc.
 
-14. Réouvrez UE5
-15. Cliquez sur `Don't import` lorsque le message apparait au bas à droite de la page de l'éditeur
-16. Accédez au dossier `Python` à l'intérieur du *content browser*
-17. Faites un clique droit sur le *Editor Utility Widget* nommé `Main_Window`
-18. Cliquez sur `Run Editor Utility Widget` ![Capture d’écran 2024-04-12 100307](https://github.com/cegepst/unreal-ldtk/assets/112954452/59577f77-423b-442a-b2a8-c54ae8ee0b47)
-19. Cliquez sur le bouton jaune `Importer`
-20. Amusez-vous bien !
+15. Réouvrez UE5
+16. Cliquez sur `Don't import` lorsque le message apparait au bas à droite de la page de l'éditeur
+17. Accédez au dossier `Python` à l'intérieur du *content browser*
+18. Faites un clique droit sur le *Editor Utility Widget* nommé `Main_Window`
+19. Cliquez sur `Run Editor Utility Widget` ![Capture d’écran 2024-04-12 100307](https://github.com/cegepst/unreal-ldtk/assets/112954452/59577f77-423b-442a-b2a8-c54ae8ee0b47)
+20. Écrivez le nom du dossier du niveau que vous voulez importer
+21. Cliquez sur le bouton jaune `Importer`
+22. Amusez-vous bien !
 
 
 

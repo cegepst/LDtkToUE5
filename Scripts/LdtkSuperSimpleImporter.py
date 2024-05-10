@@ -72,7 +72,7 @@ def get_directory_contents(path: str) -> dict:
 
     return directory_contents
 
-def importWorld():
+def importWorld(folder_name: str):
     level_files_location = "LdtkFiles/simplified"
     base_directory = "/Game"
     ldtk_files_directory = "LdtkFiles"
@@ -81,9 +81,15 @@ def importWorld():
     data_filename = "data.json"
     collisions_filename = "Collisions.csv"
 
-    base_path = os.path.join(base_directory, ldtk_files_directory, ldtk_simplified_directory)
+    if len(str(folder_name)) == 0:
+        print("Unreal LDtk: No folder name provided. Exiting...")
+        return
+    else:
+        folder_name = str(folder_name)
+
+    base_path = os.path.join(base_directory, ldtk_files_directory, folder_name, ldtk_simplified_directory)
     content_directory = unreal.Paths.project_content_dir()
-    level_directory = os.path.join(content_directory, level_files_location)
+    level_directory = os.path.join(content_directory, ldtk_files_directory, folder_name, ldtk_simplified_directory)
     directories = find_all_subfolders(level_directory)
 
     if directories.__len__() > 0:
@@ -218,7 +224,7 @@ def spawn_sprite_in_world(sprite, location=(0, 0, 0), scale=(1, 1, 1)):
     return None
 
 #noinspection PyUnresolvedReferences
-importWorld()
+importWorld(folder_name)
 
 #noinspection PyUnresolvedReferences
 print(datetime.datetime.now())
