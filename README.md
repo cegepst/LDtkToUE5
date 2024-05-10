@@ -137,7 +137,7 @@ LdtkFiles
 16. Click `Don't import` on the prompt at the bottom left of the screen when the editor opens
 17. Access the `Python` folder inside of the content browser
 18. Right-click on the `Main_Window` Editor Utility Widget
-19. Click on `Run Editor Utility Widget` ![Capture d’écran 2024-04-12 100307](https://github.com/cegepst/unreal-ldtk/assets/112954452/59577f77-423b-442a-b2a8-c54ae8ee0b47)
+19. Click on `Run Editor Utility Widget` ![run-widget-screenshot](https://github.com/cegepst/unreal-ldtk/assets/112954452/d3e78231-8cfc-4f98-976c-27f470459398)
 20. Enter the name of the folder of the level you want to import
 21. Click on the yellow `Import` button
 22. Enjoy !
@@ -272,7 +272,7 @@ LdtkFiles
 16. Cliquez sur `Don't import` lorsque le message apparait au bas à droite de la page de l'éditeur
 17. Accédez au dossier `Python` à l'intérieur du *content browser*
 18. Faites un clique droit sur le *Editor Utility Widget* nommé `Main_Window`
-19. Cliquez sur `Run Editor Utility Widget` ![Capture d’écran 2024-04-12 100307](https://github.com/cegepst/unreal-ldtk/assets/112954452/59577f77-423b-442a-b2a8-c54ae8ee0b47)
+19. Cliquez sur `Run Editor Utility Widget` ![run-widget-screenshot](https://github.com/cegepst/unreal-ldtk/assets/112954452/93b5a4fb-9639-4b50-aad7-b0eea75c2d28)
 20. Écrivez le nom du dossier du niveau que vous voulez importer
 21. Cliquez sur le bouton jaune `Importer`
 22. Amusez-vous bien !
