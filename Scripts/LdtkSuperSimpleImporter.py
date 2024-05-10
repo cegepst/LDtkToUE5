@@ -89,13 +89,13 @@ def importWorld(folder_name: str):
 
     base_path = os.path.join(base_directory, ldtk_files_directory, folder_name, ldtk_simplified_directory)
     content_directory = unreal.Paths.project_content_dir()
-    level_directory = os.path.join(content_directory, ldtk_files_directory, folder_name, ldtk_simplified_directory)
+    level_directory = os.path.join(content_directory, ldtk_files_directory, folder_name, ldtk_simplified_directory).replace("\\", "/")
     directories = find_all_subfolders(level_directory)
 
     if directories.__len__() > 0:
         print(f"Unreal LDtk: Found {len(directories)} directories in {level_directory}. Beginning import...")
     else:
-        print(f"Unreal LDtk: No directories found in {level_directory}. This might be because you are missing the LdtkFiles directory. Exiting...")
+        print(f"Unreal LDtk: No directories found in {level_directory}. \nThis might be because you are missing the LdtkFiles directory, or that the folder level name is wrong. Exiting...")
         return
 
     entity_index_counter = 0
