@@ -18,7 +18,7 @@
      - [Creating project and enabling Python editor scripting](#creating-project-and-enabling-python-editor-scripting)
      - [Add the importer to your project](#add-the-importer-to-your-project)
    - [Exporting your LDtk level correctly](#exporting-your-ldtk-level-correctly)
-     - [File nomenclature](#file-nomenclature)
+     - [File nomenclature and specific LDtk settings](#file-nomenclature-and-specific-ldtk-settings)
    - [Importing your exported LDtk level](#importing-your-exported-ldtk-level)
 
 ## Description
@@ -30,7 +30,7 @@ Following the drama related to Unity introducing fees per downloads to games dev
 Its primary functionnality is the dynamic importation of 2D levels exported from the LDtk software, using JSON and PNG files.
 
 # Video tutorial
-While we still recommend to read the complete documentation, here is a video tutorial to help illustrate the steps for using this tool: [Tutorial](https://www.youtube.com/watch?v=fVNpgvaT0aI)
+While we still recommend to read the complete documentation, here is a video tutorial to help illustrate the steps for using this tool: [Tutorial](https://www.youtube.com/watch?v=y6uYFk01-OM)
 
 ## Setup and Usage guide
 
@@ -155,7 +155,7 @@ LdtkFiles
   - [Création du projet et activation de Python Editor Scripting](#création-du-projet-et-activation-de-python-editor-scripting)
   - [Ajouter l'outil d'importation à votre projet](#ajouter-loutil-dimportation-à-votre-projet)
 - [L'exportation de votre niveau LDtk](#lexportation-de-votre-niveau-ldtk)
-  - [Nomenclature des fichiers](#nomenclature-des-fichiers)
+  - [Nomenclature des fichiers et paramètres spécifique pour LDtk](#nomenclature-des-fichiers-et-paramètres-spécifique-pour-ldtk)
 - [L'importation de votre niveau LDtk](#limportation-de-votre-niveau-ldtk)
 
 ## Description
@@ -168,7 +168,7 @@ LdtkFiles
 Sa principale fonctionnalité est l’importation dynamique de niveaux 2D créés à partir du logiciel *LDtk*, par fichier *JSON* et *PNG*.
 
 # Tutoriel vidéo
-Malgré que nous recommendons fortement de lire la documentation en son entièreté, voici une vidéo pour aider à illustrer les étapes d'utilisation de l'outil: [Tutoriel](https://www.youtube.com/watch?v=fVNpgvaT0aI)
+Malgré que nous recommendons fortement de lire la documentation en son entièreté, voici une vidéo pour aider à illustrer les étapes d'utilisation de l'outil: [Tutoriel](https://www.youtube.com/watch?v=y6uYFk01-OM)
 
 ## Guide d'installation et d'utilisation
 
