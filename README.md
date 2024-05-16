@@ -20,6 +20,7 @@
    - [Exporting your LDtk level correctly](#exporting-your-ldtk-level-correctly)
      - [File nomenclature and specific LDtk settings](#file-nomenclature-and-specific-ldtk-settings)
    - [Importing your exported LDtk level](#importing-your-exported-ldtk-level)
+   - [Replacing the imported world entities](#replacing-the-imported-world-entities)
 
 ## Description
 
@@ -142,9 +143,26 @@ LdtkFiles
 21. Click on the yellow `Import` button
 22. Enjoy !
 
+## Replacing the imported world entities
 
+Unfortunately, with LDtk and the Super Simple Export, we do not have enough data to add custom logic to the entities that are imported into the level. You will need to create your own actors and logic, and replace the imported world entities (mobs, chests, doors, etc) with your own.
 
+To do so, you can follow these steps :
 
+1. Inside of the content browser, select the object (actor, sprite, etc) that you want to use to replace the imported entit(ies) (which is an empty actor)
+
+   ![select-sprite](https://github.com/cegepst/unreal-ldtk/assets/112954452/93b75585-4c94-4af7-a03d-a5accf517808)
+
+2. In the outliner, select the imported actor(s) you want to replace
+
+   ![select-actors](https://github.com/cegepst/unreal-ldtk/assets/112954452/7aaff6dd-500d-4965-bd9d-cfcc2c87b388)
+
+3. Right-click one the imported entity, or in the case there are multiple that are selected, in the selection area
+4. Click on the object under *Selection* inside of the context menu
+
+   ![right-click](https://github.com/cegepst/unreal-ldtk/assets/112954452/c2ebe7ff-a3f7-4d20-bfd1-0243f47e3133)
+
+ 
 
 # Documentation (FR)
 
@@ -157,6 +175,7 @@ LdtkFiles
 - [L'exportation de votre niveau LDtk](#lexportation-de-votre-niveau-ldtk)
   - [Nomenclature des fichiers et paramètres spécifique pour LDtk](#nomenclature-des-fichiers-et-paramètres-spécifique-pour-ldtk)
 - [L'importation de votre niveau LDtk](#limportation-de-votre-niveau-ldtk)
+- [Remplacer les entités importées](#remplacer-les-entités-importées)
 
 ## Description
 
@@ -276,6 +295,25 @@ LdtkFiles
 20. Écrivez le nom du dossier du niveau que vous voulez importer
 21. Cliquez sur le bouton jaune `Importer`
 22. Amusez-vous bien !
+
+## Remplacer les entités importées
+
+Malheureusement, avec LDtk et le *Super Simple Export*, nous n'avons pas assez de données pour générer la logique personnalisée pour chacune des entités qui est importée dans le niveau. Vous allez devoir créer vos propres acteurs et votre propre logique, et ensuite remplacer les entités importées par l'outil (*mobs*, coffres, portes, etc) avec les votres.
+
+Pour le faire, vous pouvez suivre les étapes ci-dessous :
+
+1. Dans le *content browser*, selectionnez l'objet (acteur, *sprite*, etc) que vous voulez utiliser pour remplacer la/les entité(s) importée(s) (qui sont des acteurs vides dans le monde)
+
+   ![select-sprite](https://github.com/cegepst/unreal-ldtk/assets/112954452/93b75585-4c94-4af7-a03d-a5accf517808)
+
+2. Dans l'*outliner*, selectionnez le ou les entité(s) importée(s) que vous voulez remplacer
+
+   ![select-actors](https://github.com/cegepst/unreal-ldtk/assets/112954452/7aaff6dd-500d-4965-bd9d-cfcc2c87b388)
+
+3. Clique-droit sur l'entité importée, ou dans la zone de sélection si plusieurs sont sélectionnées
+4. Cliquez sur l'objet sous la section *Selection* dans le menu contextuel
+
+   ![right-click](https://github.com/cegepst/unreal-ldtk/assets/112954452/c2ebe7ff-a3f7-4d20-bfd1-0243f47e3133)
 
 
 
