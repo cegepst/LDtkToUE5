@@ -30,6 +30,8 @@ Following the drama related to Unity introducing fees per downloads to games dev
 
 Its primary functionnality is the dynamic importation of 2D levels exported from the LDtk software, using JSON and PNG files.
 
+Disclaimer: This was built within the context of a 2 month long project for the last semester of a college computer science program.
+
 # Video tutorial
 While we still recommend to read the complete documentation, here is a video tutorial to help illustrate the steps for using this tool: [Tutorial](https://www.youtube.com/watch?v=y6uYFk01-OM)
 
@@ -185,6 +187,8 @@ To do so, you can follow these steps :
 *Godot* ayant déjà une implémentation, il était de notre intérêt de l’intégrer à *UE5* aussi.
 
 Sa principale fonctionnalité est l’importation dynamique de niveaux 2D créés à partir du logiciel *LDtk*, par fichier *JSON* et *PNG*.
+
+Avertissement: Ceci est le produit d'un projet de 2 mois pour la dernière session d'un programme collégial en développement d'applications.
 
 # Tutoriel vidéo
 Malgré que nous recommendons fortement de lire la documentation en son entièreté, voici une vidéo pour aider à illustrer les étapes d'utilisation de l'outil: [Tutoriel](https://www.youtube.com/watch?v=y6uYFk01-OM)
